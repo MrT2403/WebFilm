@@ -4,7 +4,6 @@ import themeModeSlice from "./features/themeModeSlice";
 import globalLoadingSlice from "./features/globalLoadingSlice";
 import authModalSlice from "./features/authModalSlice";
 import appStateSlice from "./features/appStateSlice";
-import customizeMiddleware from "./getDefaultMiddleware";
 
 const store = configureStore({
   reducer: {
@@ -14,7 +13,10 @@ const store = configureStore({
     globalLoading: globalLoadingSlice,
     authModal: authModalSlice,
   },
-  middleware: (getDefaultMiddleware) => customizeMiddleware,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export default store;

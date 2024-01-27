@@ -191,7 +191,7 @@ const MediaDetail = () => {
                 {/* rate and genres */}
                 <Stack direction="row" spacing={1} alignItems="center">
                   {/* rate */}
-                  <Rate value={media.vote_average} />
+                  <Rate value={media.vote_average / 2} />
                   {/* rate */}
                   <Divider orientation="vertical" />
                   {/* genres */}

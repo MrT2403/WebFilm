@@ -20,12 +20,13 @@ import uiConfigs from "../../configs/ui.configs";
 import Rate from "./Rate";
 import tmdbConfigs from "../../api/configs/tmdb.config";
 import genreApi from "../../api/modules/genre.api";
+import PaginationDot from "./PaginationDot";
 
 const Hero = ({ mediaType, mediaCategory }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const [movie, setMovie] = useState([]);
-  const [genre, setGenre] = useState([]);
+  const [movies, setMovies] = useState([]);
+  const [genres, setGenres] = useState([]);
 
   useEffect(() => {
     const getMedia = async () => {
@@ -34,7 +35,7 @@ const Hero = ({ mediaType, mediaCategory }) => {
         mediaCategory,
         page: 1,
       });
-      if (response) setMovie(response.results);
+      if (response) setMovies(response.results);
       if (err) toast.error(err.message);
       dispatch(setGlobalLoading(false));
     };
@@ -42,7 +43,7 @@ const Hero = ({ mediaType, mediaCategory }) => {
       dispatch(setGlobalLoading(true));
       const { response, err } = await genreApi.getList({ mediaType });
       if (response) {
-        setGenre(response.genres);
+        setGenres(response.genres);
         getMedia();
       }
       if (err) {
@@ -77,7 +78,7 @@ const Hero = ({ mediaType, mediaCategory }) => {
         loop={true}
         style={{ width: "100%", height: "max-content" }}
       >
-        {movie.map((movie, index) => (
+        {movies.map((movie, index) => (
           <SwiperSlide key={index}>
             <Box
               sx={{
@@ -148,8 +149,8 @@ const Hero = ({ mediaType, mediaCategory }) => {
                         color="primary"
                         key={index}
                         label={
-                          genre.find((e) => e.id === genreId) &&
-                          genre.find((e) => e.id === genreId).name
+                          genres.find((e) => e.id === genreId) &&
+                          genres.find((e) => e.id === genreId).name
                         }
                       />
                     ))}
@@ -181,6 +182,7 @@ const Hero = ({ mediaType, mediaCategory }) => {
           </SwiperSlide>
         ))}
       </Swiper>
+      <PaginationDot></PaginationDot>
     </Box>
   );
 };

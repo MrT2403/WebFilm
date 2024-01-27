@@ -10,15 +10,20 @@ const privateClient = axios.create({
   },
 });
 
-privateClient.interceptors.request.use(async (config) => {
-  return {
-    ...config,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("nottris")}`,
-    },
-  };
-});
+privateClient.interceptors.request.use(
+  async (config) => {
+    return {
+      ...config,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("nottris")}`,
+      },
+    };
+  },
+  (err) => {
+    return Promise.reject(err);
+  }
+);
 
 privateClient.interceptors.response.use(
   (response) => {
@@ -29,7 +34,7 @@ privateClient.interceptors.response.use(
   },
   (error) => {
     console.error(error);
-    throw error;
+    throw error.response.data;
   }
 );
 

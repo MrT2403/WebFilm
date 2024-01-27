@@ -1,5 +1,5 @@
 import { Box, Button, Paper, Stack } from "@mui/material";
-import React, { useEffect } from "react";
+import React from "react";
 import Logo from "./Logo";
 import menuConfigs from "../../configs/menu.configs";
 import Container from "./Container";

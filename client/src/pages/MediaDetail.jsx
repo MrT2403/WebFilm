@@ -3,7 +3,16 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 import { LoadingButton } from "@mui/lab";
-import { Box, Button, Chip, Divider, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Chip,
+  Divider,
+  Stack,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -43,6 +52,10 @@ const MediaDetail = () => {
   const dispatch = useDispatch();
 
   const videoRef = useRef(null);
+  const [activeTab, setActiveTab] = useState(0);
+  const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue);
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -246,43 +259,44 @@ const MediaDetail = () => {
                     watch now
                   </Button>
                 </Stack>
-                {/* buttons */}
-
-                {/* cast */}
-                <Container header="Cast">
-                  <Cast casts={media.credits.cast} />
-                </Container>
-                {/* cast */}
               </Stack>
             </Box>
-            {/* media info */}
           </Box>
         </Box>
-        {/* media content */}
 
-        {/* media videos */}
+        <Tabs
+          value={activeTab}
+          onChange={handleTabChange}
+          centered
+          sx={{ marginTop: "3rem" }}
+        >
+          <Tab label="CAST" />
+          <Tab label="BACKDROPS" />
+          <Tab label="POSTERS" />
+        </Tabs>
+        {activeTab === 0 && (
+          <Container header="Cast">
+            <Cast casts={media.credits.cast} />
+          </Container>
+        )}
+
+        {media.images.backdrops.length > 0 && activeTab === 1 && (
+          <Container header="backdrops">
+            <Backdrop backdrops={media.images.backdrops} />
+          </Container>
+        )}
+
+        {media.images.posters.length > 0 && activeTab === 2 && (
+          <Container header="posters">
+            <Poster posters={media.images.posters} />
+          </Container>
+        )}
+
         <div ref={videoRef} style={{ paddingTop: "2rem" }}>
           <Container header="Videos">
             <MediaVideos videos={[...media.videos.results].splice(0, 5)} />
           </Container>
         </div>
-        {/* media videos */}
-
-        {/* media backdrop */}
-        {media.images.backdrops.length > 0 && (
-          <Container header="backdrops">
-            <Backdrop backdrops={media.images.backdrops} />
-          </Container>
-        )}
-        {/* media backdrop */}
-
-        {/* media posters */}
-        {media.images.posters.length > 0 && (
-          <Container header="posters">
-            <Poster posters={media.images.posters} />
-          </Container>
-        )}
-        {/* media posters */}
 
         {/* media reviews */}
         <MediaReview

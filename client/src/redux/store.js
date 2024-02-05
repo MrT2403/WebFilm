@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+
 import userSlice from "./features/userSlice";
 import themeModeSlice from "./features/themeModeSlice";
 import globalLoadingSlice from "./features/globalLoadingSlice";

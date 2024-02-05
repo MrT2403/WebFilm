@@ -79,6 +79,7 @@ const Item = ({ media, mediaType }) => {
               left: 0,
               width: "100%",
               height: "100%",
+              margin: "1rem",
               backgroundImage: `url(${posterPath})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
@@ -109,20 +110,18 @@ const Item = ({ media, mediaType }) => {
             }}
           >
             <Button
-              component={Box}
+              className="media-play-btn"
               to={routesGen.mediaDetail(mediaType, media.mediaId || media.id)}
               variant="contained"
-              startIcon={<PlayArrowIcon />}
+              startIcon=<PlayArrowIcon />
               sx={{
+                display: { xs: "none", md: "flex" },
+                transition: "all 0.3s ease",
                 position: "absolute",
                 top: "50%",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
-                opacity: 1,
-                transition: "opacity 0.3s ease",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                "& .MuiButton-startIcon": { marginRight: "-4px" },
               }}
             />
           </div>

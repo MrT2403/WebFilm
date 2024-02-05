@@ -7,6 +7,8 @@ const mediaEndpoints = {
   detail: ({ mediaType, mediaId }) => `${mediaType}/detail/${mediaId}`,
   search: ({ mediaType, query, page }) =>
     `${mediaType}/search?query=${query}&page=${page}`,
+  trending: ({ mediaType, mediaCategory, timeWindow }) =>
+    `${mediaCategory}/${mediaType}/${timeWindow}`,
 };
 
 const mediaApi = {
@@ -15,7 +17,18 @@ const mediaApi = {
       const response = await publicClient.get(
         mediaEndpoints.list({ mediaType, mediaCategory, page })
       );
-
+      console.log("response getlisst: ", response, "from", mediaCategory);
+      return { response };
+    } catch (err) {
+      return { err };
+    }
+  },
+  getTrending: async ({ mediaType, mediaCategory, timeWindow = "week" }) => {
+    try {
+      const response = await publicClient.get(
+        mediaEndpoints.trending({ mediaType, mediaCategory, timeWindow })
+      );
+      console.log("response getrenddingg: ", response);
       return { response };
     } catch (err) {
       return { err };

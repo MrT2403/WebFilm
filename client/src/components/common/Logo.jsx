@@ -2,7 +2,7 @@ import { useTheme } from "@emotion/react";
 import { Typography } from "@mui/material";
 import React from "react";
 
-const Logo = () => {
+const Logo = ({ big }) => {
   const theme = useTheme();
 
   const handleLinkClick = () => {
@@ -12,7 +12,7 @@ const Logo = () => {
   return (
     <Typography
       fontWeight="700"
-      fontSize="2rem"
+      fontSize={big ? "3rem" : "2rem"} // Thay đổi kích thước dựa trên thuộc tính big
       onClick={handleLinkClick}
       sx={{ cursor: "pointer", textDecoration: "none" }}
     >

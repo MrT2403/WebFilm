@@ -10,14 +10,25 @@ const ContentSlide = ({ mediaType, mediaCategory }) => {
 
   useEffect(() => {
     const getMedias = async () => {
-      const { response, err } = await mediaApi.getList({
-        mediaType,
-        mediaCategory,
-        page: 1,
-      });
-
-      if (response) setMedias(response.results);
-      if (err) toast.error(err.message);
+      console.log(mediaCategory, "hihihiihih");
+      if (mediaCategory === "trending") {
+        const { response, err } = await mediaApi.getTrending({
+          mediaType: "all",
+          mediaCategory,
+          timeWindow: "week",
+        });
+        console.log("response trend: ", response);
+        if (response) setMedias(response.results);
+        if (err) toast.error(err.message);
+      } else {
+        const { response, err } = await mediaApi.getList({
+          mediaType,
+          mediaCategory,
+          page: 1,
+        });
+        if (response) setMedias(response.results);
+        if (err) toast.error(err.message);
+      }
     };
 
     getMedias();

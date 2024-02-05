@@ -11,4 +11,6 @@ router.get("/detail/:mediaId", mediaController.getDetail);
 
 router.get("/:mediaCategory", mediaController.getList);
 
+router.get("/:mediaCategory", mediaController.getTrending);
+
 export default router;

@@ -1,4 +1,3 @@
-import React from "react";
 import ScrollToTopButton from "../components/common/ScrollToTopButton";
 import Hero from "../components/common/Hero";
 import tmdbConfigs from "../api/configs/tmdb.config";
@@ -16,21 +15,28 @@ const HomePage = () => {
       ></Hero>
 
       <div style={{ maxWidth: "1122px", margin: "0 auto" }}>
-        <Container header="popular movies">
+        <Container header="Trending">
+          <ContentSlide
+            mediaType={tmdbConfigs.mediaType.movie}
+            mediaCategory={tmdbConfigs.mediaCategory.trending}
+          ></ContentSlide>
+        </Container>
+
+        <Container header="Popular Movies">
           <ContentSlide
             mediaType={tmdbConfigs.mediaType.movie}
             mediaCategory={tmdbConfigs.mediaCategory.popular}
           ></ContentSlide>
         </Container>
 
-        <Container header="rated movies">
+        <Container header="Rated Movies">
           <ContentSlide
             mediaType={tmdbConfigs.mediaType.tv}
-            mediaCategory={tmdbConfigs.mediaCategory.popular}
+            mediaCategory={tmdbConfigs.mediaCategory.top_rated}
           ></ContentSlide>
         </Container>
 
-        <Container header="top movies">
+        <Container header="Top Movies">
           <ContentSlide
             mediaType={tmdbConfigs.mediaType.movie}
             mediaCategory={tmdbConfigs.mediaCategory.popular}

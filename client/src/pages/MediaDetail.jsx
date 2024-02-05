@@ -146,7 +146,6 @@ const MediaDetail = () => {
           ...uiConfigs.style.mainContent,
         }}
       >
-        {/* media content */}
         <Box
           sx={{
             marginTop: { xs: "-10rem", md: "-15rem", lg: "-20rem" },
@@ -158,7 +157,6 @@ const MediaDetail = () => {
               flexDirection: { md: "row", xs: "column" },
             }}
           >
-            {/* poster */}
             <Box
               sx={{
                 width: { xs: "70%", sm: "50%", md: "40%" },
@@ -176,9 +174,7 @@ const MediaDetail = () => {
                 }}
               />
             </Box>
-            {/* poster */}
 
-            {/* media info */}
             <Box
               sx={{
                 width: { xs: "100%", md: "60%" },
@@ -186,7 +182,6 @@ const MediaDetail = () => {
               }}
             >
               <Stack spacing={5}>
-                {/* title */}
                 <Typography
                   variant="h4"
                   fontSize={{ xs: "2rem", md: "2rem", lg: "4rem" }}
@@ -199,15 +194,10 @@ const MediaDetail = () => {
                       : media.first_air_date.split("-")[0]
                   }`}
                 </Typography>
-                {/* title */}
 
-                {/* rate and genres */}
                 <Stack direction="row" spacing={1} alignItems="center">
-                  {/* rate */}
                   <Rate value={media.vote_average / 2} />
-                  {/* rate */}
                   <Divider orientation="vertical" />
-                  {/* genres */}
                   {genres.map((genre, index) => (
                     <Chip
                       label={genre.name}
@@ -216,20 +206,15 @@ const MediaDetail = () => {
                       key={index}
                     />
                   ))}
-                  {/* genres */}
                 </Stack>
-                {/* rate and genres */}
 
-                {/* overview */}
                 <Typography
                   variant="body1"
                   sx={{ ...uiConfigs.style.typoLines(5) }}
                 >
                   {media.overview}
                 </Typography>
-                {/* overview */}
 
-                {/* buttons */}
                 <Stack direction="row" spacing={1}>
                   <LoadingButton
                     variant="text"
@@ -298,15 +283,12 @@ const MediaDetail = () => {
           </Container>
         </div>
 
-        {/* media reviews */}
         <MediaReview
           reviews={media.reviews}
           media={media}
           mediaType={mediaType}
         />
-        {/* media reviews */}
 
-        {/* media recommendation */}
         <Container header="you may also like">
           {media.recommend.length > 0 && (
             <Recommend medias={media.recommend} mediaType={mediaType} />
@@ -318,7 +300,6 @@ const MediaDetail = () => {
             />
           )}
         </Container>
-        {/* media recommendation */}
       </Box>
     </>
   ) : null;

@@ -1,12 +1,15 @@
 const mediaType = {
   movie: "movie",
   tv: "tv",
+  trending: "trending",
 };
 
 const mediaCategory = {
-  trending: "trending",
+  all: "all",
   popular: "popular",
   top_rated: "top_rated",
+  now_playing: "now_playing",
+  upcoming: "upcoming",
 };
 
 const backdropPath = (imgEndpoint) =>

@@ -3,6 +3,7 @@ import Hero from "../components/common/Hero";
 import tmdbConfigs from "../api/configs/tmdb.config";
 import ContentSlide from "../components/common/ContentSlide";
 import Container from "../components/common/Container";
+import EmailForm from "../components/common/EmailForm";
 
 const HomePage = () => {
   return (
@@ -15,10 +16,10 @@ const HomePage = () => {
       ></Hero>
 
       <div style={{ maxWidth: "1122px", margin: "0 auto" }}>
-        <Container header="Trending">
+        <Container header="Now Playing">
           <ContentSlide
             mediaType={tmdbConfigs.mediaType.movie}
-            mediaCategory={tmdbConfigs.mediaCategory.trending}
+            mediaCategory={tmdbConfigs.mediaCategory.now_playing}
           ></ContentSlide>
         </Container>
 
@@ -42,6 +43,8 @@ const HomePage = () => {
             mediaCategory={tmdbConfigs.mediaCategory.popular}
           ></ContentSlide>
         </Container>
+
+        <EmailForm />
       </div>
     </div>
   );

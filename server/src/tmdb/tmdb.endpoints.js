@@ -1,26 +1,32 @@
-import tmdbConfig from "./tmdb.config.js";
+const baseUrl = process.env.TMDB_URL;
+const key = process.env.TMDB_KEY;
+
+const getUrl = (endpoint, params) => {
+  const pa = new URLSearchParams(params);
+
+  return `${baseUrl}${endpoint}?api_key=${key}&${pa}`;
+};
 
 const tmdbEndpoints = {
+  getUrl,
   mediaList: ({ mediaType, mediaCategory, page }) =>
-    tmdbConfig.getUrl(`${mediaType}/${mediaCategory}`, { page }),
-  mediaDetail: ({ mediaType, mediaId }) =>
-    tmdbConfig.getUrl(`${mediaType}/${mediaId}`),
-  mediaGenres: ({ mediaType }) => tmdbConfig.getUrl(`genre/${mediaType}/list`),
+    getUrl(`${mediaType}/${mediaCategory}`, { page }),
+  mediaDetail: ({ mediaType, mediaId }) => getUrl(`${mediaType}/${mediaId}`),
+  mediaGenres: ({ mediaType }) => getUrl(`genre/${mediaType}/list`),
   mediaCredits: ({ mediaType, mediaId }) =>
-    tmdbConfig.getUrl(`${mediaType}/${mediaId}/credits`),
+    getUrl(`${mediaType}/${mediaId}/credits`),
   mediaVideos: ({ mediaType, mediaId }) =>
-    tmdbConfig.getUrl(`${mediaType}/${mediaId}/videos`),
+    getUrl(`${mediaType}/${mediaId}/videos`),
   mediaRecommend: ({ mediaType, mediaId }) =>
-    tmdbConfig.getUrl(`${mediaType}/${mediaId}/recommendations`),
+    getUrl(`${mediaType}/${mediaId}/recommendations`),
   mediaImages: ({ mediaType, mediaId }) =>
-    tmdbConfig.getUrl(`${mediaType}/${mediaId}/images`),
+    getUrl(`${mediaType}/${mediaId}/images`),
   mediaSearch: ({ mediaType, query, page }) =>
-    tmdbConfig.getUrl(`search/${mediaType}`, { query, page }),
+    getUrl(`search/${mediaType}`, { query, page }),
   mediaTrending: ({ mediaType, mediaCategory, timeWindow }) =>
-    tmdbConfig.getUrl(`${mediaType}/${mediaCategory}/${timeWindow}`),
-  personDetail: ({ personId }) => tmdbConfig.getUrl(`person/${personId}`),
-  personMedias: ({ personId }) =>
-    tmdbConfig.getUrl(`person/${personId}/combined_credits`),
+    getUrl(`${mediaType}/${mediaCategory}/${timeWindow}`),
+  personDetail: ({ personId }) => getUrl(`person/${personId}`),
+  personMedias: ({ personId }) => getUrl(`person/${personId}/combined_credits`),
 };
 
 export default tmdbEndpoints;

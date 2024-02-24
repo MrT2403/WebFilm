@@ -3,6 +3,7 @@
     "@material-ui/core": "^4.12.4",
     "@mui/styles": "^5.15.5",
     "import": "^0.0.6",
+    "openai": "^4.28.0",
     "react-material-ui-carousel": "^3.4.2",
     "react-owl-carousel": "^2.3.3",
     "react-responsive-carousel": "^3.2.23",

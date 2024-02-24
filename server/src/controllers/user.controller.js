@@ -6,49 +6,32 @@ const signup = async (req, res) => {
   try {
     const { username, password, email } = req.body;
     const checkUser = await userModel.findOne({ username });
-    if (checkUser)
+    if (checkUser) {
       return responseHandler.badrequest(res, "Username already used");
-    const user = new userModel();
-    user.email = email;
-    user.username = username;
+    }
+    const user = new userModel({ email, username });
     user.setPassword(password);
-    console.log("not save");
+
     await user.save();
-    console.log("save");
+
     const token = jsonwebtoken.sign(
       { data: user.id },
       process.env.TOKEN_SECRET,
       { expiresIn: "24h" }
     );
 
-    user.password = undefined;
-    user.salt = undefined;
+    const { password: _, salt: __, ...userData } = user.toObject();
 
     responseHandler.created(res, {
       token,
-      ...user._doc,
+      ...userData,
       id: user.id,
     });
-  } catch {
+  } catch (error) {
+    console.error(error);
     responseHandler.error(res);
   }
 };
-
-// const signin = async (req, res) => {
-//   try {
-//     console.log("hiiiii: ", req);
-//     const { username, password } = req.body;
-//     const user = await userModel
-//       .findOne({ username })
-//       .select("username email password salt id");
-//     if (!user) return responseHandler.badrequest(res, "User does not exist");
-//     if (!user.validPassword(password))
-//       return responseHandler.badrequest(res, "Wrong password");
-//     responseHandler.ok(res);
-//   } catch {
-//     responseHandler.error(res);
-//   }
-// };
 
 const signin = async (req, res) => {
   try {
@@ -71,12 +54,11 @@ const signin = async (req, res) => {
       { expiresIn: "24h" }
     );
 
-    user.password = undefined;
-    user.salt = undefined;
+    const { password: _, salt: __, ...userData } = user.toObject();
 
     responseHandler.ok(res, {
       token,
-      ...user._doc,
+      ...userData,
       id: user.id,
     });
   } catch (error) {
@@ -92,19 +74,21 @@ const updatePassword = async (req, res) => {
       .findById(req.user.id)
       .select("password id salt");
 
-    if (!user) return responseHandler.unauthorize(res);
-    if (!user.validPassword(password))
+    if (!user) {
+      return responseHandler.unauthorize(res);
+    }
+
+    if (!user.validPassword(password)) {
       return responseHandler.badrequest(res, "Wrong password");
+    }
 
     user.setPassword(newPassword);
 
     await user.save();
 
-    user.password = undefined;
-    user.salt = undefined;
-
     responseHandler.ok(res);
-  } catch {
+  } catch (error) {
+    console.error(error);
     responseHandler.error(res);
   }
 };
@@ -115,10 +99,13 @@ const getInfo = async (req, res) => {
       .findById(req.user.id)
       .select("-password -salt");
 
-    if (!user) return responseHandler.notfound(res);
+    if (!user) {
+      return responseHandler.notfound(res);
+    }
 
     responseHandler.ok(res, user);
-  } catch {
+  } catch (error) {
+    console.error(error);
     responseHandler.error(res);
   }
 };

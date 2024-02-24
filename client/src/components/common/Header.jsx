@@ -21,6 +21,7 @@ import Logo from "./Logo";
 import { useDispatch, useSelector } from "react-redux";
 import UserMenu from "./UserMenu";
 import SideBar from "./SideBar";
+import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 
 const ScrollAppBar = ({ children, window }) => {
   const { themeMode } = useSelector((state) => state.themeMode);
@@ -53,6 +54,7 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [notificationOpen, setNotificationOpen] = useState(false);
 
   const onSwitchTheme = () => {
     const theme =
@@ -133,6 +135,16 @@ const Header = () => {
                 sx={{
                   color: "inherit",
                   ml: 2,
+                  mr: 1,
+                }}
+                onClick={() => setNotificationOpen(!notificationOpen)}
+              >
+                <NotificationsOutlinedIcon />
+              </IconButton>
+              <IconButton
+                sx={{
+                  color: "inherit",
+                  ml: 1,
                   mr: 3,
                 }}
                 onClick={onSwitchTheme}

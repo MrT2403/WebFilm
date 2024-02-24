@@ -10,7 +10,6 @@ const genreApi = {
       const response = await publicClient.get(
         genreEndpoints.list({ mediaType })
       );
-      console.log("response from genre api: ", response);
       return { response };
     } catch (error) {
       return { error };

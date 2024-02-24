@@ -20,7 +20,7 @@ const Footer = () => {
               <Logo big />
               <Typography fontSize="0.9rem">
                 Khu phố 6, phường Linh Trung, thành phố Thủ Đức, Thành phố Hồ
-                Chí Minh , Thành phố Hồ Chí Minh , Việt Nam
+                Chí Minh
               </Typography>
             </Stack>
           </Grid>

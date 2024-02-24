@@ -6,11 +6,13 @@ const validate = (req, res, next) => {
   if (!errors.isEmpty()) {
     const errorMessages = errors.array().map((error) => error.msg);
     return res.status(400).json({
-      message: errorMessages,
+      message: errorMessages.array()[0].msg,
     });
   }
 
   next();
 };
 
-export default { validate };
+export default {
+  validate,
+};

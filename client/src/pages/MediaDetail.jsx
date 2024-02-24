@@ -100,7 +100,6 @@ const MediaDetail = () => {
     };
 
     const { response, err } = await favoriteApi.add(body);
-
     setOnRequest(false);
 
     if (err) toast.error(err.message);
@@ -114,7 +113,7 @@ const MediaDetail = () => {
   const onRemoveFavorite = async () => {
     if (onRequest) return;
     setOnRequest(true);
-
+    console.log("list: ", listFavorites);
     const favorite = listFavorites.find(
       (e) => e.mediaId.toString() === media.id.toString()
     );
@@ -122,6 +121,8 @@ const MediaDetail = () => {
     const { response, err } = await favoriteApi.remove({
       favoriteId: favorite.id,
     });
+
+    console.log("response remove: ", response);
 
     setOnRequest(false);
 
@@ -289,7 +290,7 @@ const MediaDetail = () => {
           mediaType={mediaType}
         />
 
-        <Container header="you may also like">
+        <Container header="You might also enjoy">
           {media.recommend.length > 0 && (
             <Recommend medias={media.recommend} mediaType={mediaType} />
           )}

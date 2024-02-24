@@ -4,20 +4,20 @@ import mediaApi from "../../api/modules/media.api";
 import AutoSwiper from "./AutoSwiper";
 import { toast } from "react-toastify";
 import Item from "./Item";
+import MediaItemSlide from "./Item";
+import PaginationDot from "./PaginationDot";
 
 const ContentSlide = ({ mediaType, mediaCategory }) => {
   const [medias, setMedias] = useState([]);
 
   useEffect(() => {
     const getMedias = async () => {
-      console.log(mediaCategory, "hihihiihih");
-      if (mediaCategory === "trending") {
+      if (mediaType === "trending") {
         const { response, err } = await mediaApi.getTrending({
-          mediaType: "all",
+          mediaType,
           mediaCategory,
-          timeWindow: "week",
+          timeWindow: "day",
         });
-        console.log("response trend: ", response);
         if (response) setMedias(response.results);
         if (err) toast.error(err.message);
       } else {
@@ -33,7 +33,6 @@ const ContentSlide = ({ mediaType, mediaCategory }) => {
 
     getMedias();
   }, [mediaType, mediaCategory]);
-
   return (
     <AutoSwiper>
       <div
@@ -42,17 +41,19 @@ const ContentSlide = ({ mediaType, mediaCategory }) => {
           margin: "-10px",
         }}
       >
-        {medias.map((media, index) => (
-          <SwiperSlide key={index}>
-            <div
-              style={{
-                marginRight: "20px",
-              }}
-            >
-              <Item media={media} mediaType={mediaType} />
-            </div>
-          </SwiperSlide>
-        ))}
+        <PaginationDot>
+          {medias.map((media, index) => (
+            <SwiperSlide key={index}>
+              <div
+                style={{
+                  marginRight: "20px",
+                }}
+              >
+                <Item media={media} mediaType={mediaType} />
+              </div>
+            </SwiperSlide>
+          ))}
+        </PaginationDot>
       </div>
     </AutoSwiper>
   );

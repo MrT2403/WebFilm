@@ -7,16 +7,17 @@ import MediaSearch from "../pages/MediaSearch";
 import ReviewList from "../pages/ReviewList";
 import ProtectedPage from "../components/common/ProtectedPage";
 import PasswordUpdate from "../pages/PasswordUpdate";
+import TestMediaSearch from "../pages/TestMediaSearch";
 
 export const routesGen = {
   home: "/",
   mediaList: (type) => `/${type}`,
   mediaDetail: (type, id) => `/${type}/${id}`,
-  mediaSearch: "/search",
   person: (id) => `/person/${id}`,
   favoriteList: "/favorites",
   reviewList: "reviews",
   passwordUpdate: "password-update",
+  mediaSearch: "/search",
 };
 
 const routes = [

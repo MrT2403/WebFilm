@@ -23,13 +23,16 @@ const getList = async (req, res) => {
 
 const getTrending = async (req, res) => {
   try {
-    const { mediaType, mediaCategory } = req.params;
+    const { mediaType, mediaCategory, timeWindow } = req.params;
     const response = await tmdbApi.mediaTrending({
       mediaType,
       mediaCategory,
+      timeWindow,
     });
+    console.log("response trending: ", response);
     return responseHandler.ok(res, response);
-  } catch {
+  } catch (err) {
+    console.log("err trend: ", err);
     responseHandler.error(res);
   }
 };

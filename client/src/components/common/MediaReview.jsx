@@ -27,7 +27,7 @@ const ReviewItem = ({ review, onRemoved }) => {
     setOnRequest(true);
 
     const { response, err } = await reviewApi.remove({ reviewId: review.id });
-
+    console.log("response remove review: ", response);
     if (err) toast.error(err.message);
     if (response) onRemoved(review.id);
   };
@@ -43,13 +43,11 @@ const ReviewItem = ({ review, onRemoved }) => {
       }}
     >
       <Stack direction="row" spacing={2}>
-        {/* avatar */}
-        <TextAva text={review.user?.displayName} />
-        {/* avatar */}
+        <TextAva text={review.user?.username} />
         <Stack spacing={2} flexGrow={1}>
           <Stack spacing={1}>
             <Typography variant="h6" fontWeight="700">
-              {review.user?.displayName}
+              {review.user?.username}
             </Typography>
             <Typography variant="caption">
               {dayjs(review.createdAt).format("DD-MM-YYYY HH:mm:ss")}
@@ -111,7 +109,7 @@ const MediaReview = ({ reviews, media, mediaType }) => {
     };
 
     const { response, err } = await reviewApi.add(body);
-
+    console.log("response: review", response);
     setOnRequest(false);
 
     if (err) toast.error(err.message);
@@ -134,6 +132,7 @@ const MediaReview = ({ reviews, media, mediaType }) => {
 
   const onRemoved = (id) => {
     if (listReviews.findIndex((e) => e.id === id) !== -1) {
+      console.log("helloooooo");
       const newListReviews = [...listReviews].filter((e) => e.id !== id);
       setListReviews(newListReviews);
       setFilteredReviews([...newListReviews].splice(0, page * skip));
@@ -170,10 +169,10 @@ const MediaReview = ({ reviews, media, mediaType }) => {
           <>
             <Divider />
             <Stack direction="row" spacing={2}>
-              <TextAva text={user.displayName} />
+              <TextAva text={user.username} />
               <Stack spacing={2} flexGrow={1}>
                 <Typography variant="h6" fontWeight="700">
-                  {user.displayName}
+                  {user.username}
                 </Typography>
                 <TextField
                   value={content}

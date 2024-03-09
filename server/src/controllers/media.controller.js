@@ -1,7 +1,7 @@
 import responseHandler from "../handlers/response.handler.js";
 import tmdbApi from "../tmdb/tmdb.api.js";
 import userModel from "../models/user.model.js";
-import favoriteModel from "..//models/favorite.model.js";
+import favoriteModel from "../models/favorite.model.js";
 import reviewModel from "../models/review.model.js";
 import tokenMiddleware from "../middlewares/token.middleware.js";
 
@@ -17,7 +17,7 @@ const getList = async (req, res) => {
 
     return responseHandler.ok(res, response);
   } catch {
-    responseHandler.error(res);
+    responseHandler.error(res, err);
   }
 };
 
@@ -52,12 +52,16 @@ const search = async (req, res) => {
   try {
     const { mediaType } = req.params;
     const { query, page } = req.query;
+    console.log("mediaType: ", mediaType);
+    console.log("query, page: ", query);
+    console.log("page: ", page);
     const response = await tmdbApi.mediaSearch({
       query,
       page,
       mediaType: mediaType === "people" ? "person" : mediaType,
     });
-    responseHandler.error(res, response);
+    console.log("response search controoler: ", response);
+    return responseHandler.ok(res, response);
   } catch {
     responseHandler.error(res);
   }

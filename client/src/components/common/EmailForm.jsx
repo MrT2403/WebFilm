@@ -4,14 +4,20 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import axios from "axios";
 
 const EmailForm = () => {
   const [email, setEmail] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Email submitted:", email);
-    setEmail("");
+    try {
+      const response = await axios.post("/api/email/subscribe", { email });
+      console.log("Server response:", response.data);
+      setEmail("");
+    } catch (error) {
+      console.error("Error submitting email:", error);
+    }
   };
 
   const handleChange = (e) => {

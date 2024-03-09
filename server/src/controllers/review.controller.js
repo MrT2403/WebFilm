@@ -9,7 +9,6 @@ const create = async (req, res) => {
       movieId,
       ...req.body,
     });
-
     await review.save();
 
     responseHandler.created(res, {
@@ -30,10 +29,12 @@ const remove = async (req, res) => {
       user: req.user.id,
     });
 
-    if (!review) return responseHandler.notfound(res);
-    await review.remove();
+    if (!review) {
+      return responseHandler.notfound(res);
+    }
+    await review.deleteDocument();
     responseHandler.ok(res);
-  } catch {
+  } catch (err) {
     responseHandler.error(res);
   }
 };

@@ -6,7 +6,7 @@ const mediaEndpoints = {
     `${mediaType}/${mediaCategory}?page=${page}`,
   detail: ({ mediaType, mediaId }) => `${mediaType}/detail/${mediaId}`,
   search: ({ mediaType, query, page }) =>
-    `search/${mediaType}?query=${query}&page=${page}`,
+    `${mediaType}/search?query=${query}&page=${page}`,
   trending: ({ mediaType, mediaCategory, timeWindow }) =>
     `${mediaType}/${mediaCategory}/${timeWindow}`,
 };
@@ -48,7 +48,6 @@ const mediaApi = {
       const response = await publicClient.get(
         mediaEndpoints.search({ mediaType, query, page })
       );
-
       return { response };
     } catch (err) {
       return { err };

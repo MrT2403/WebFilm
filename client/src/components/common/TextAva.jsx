@@ -2,7 +2,6 @@ import { Avatar } from "@mui/material";
 
 const TextAva = ({ text }) => {
   const stringToColor = (str) => {
-    console.log("strrrrr: ", str);
     if (!str || str.length === 0) {
       return "#000000";
     }

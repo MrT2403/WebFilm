@@ -1,37 +1,40 @@
 import mongoose, { Schema } from "mongoose";
 import modelOptions from "./model.options.js";
 
-export default mongoose.model(
-  "Review",
-  mongoose.Schema(
-    {
-      user: {
-        type: Schema.Types.ObjectId,
-        required: true,
-        ref: "User",
-      },
-      mediaType: {
-        type: String,
-        required: true,
-        enum: ["tv", "movie"],
-      },
-      mediaId: {
-        type: String,
-        required: true,
-      },
-      mediaTitle: {
-        type: String,
-        required: true,
-      },
-      mediaPoster: {
-        type: String,
-        required: true,
-      },
-      mediaRate: {
-        type: Number,
-        required: true,
-      },
+const reviewSchema = new mongoose.Schema(
+  {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
-    modelOptions
-  )
+    content: {
+      type: String,
+      required: true,
+    },
+    mediaType: {
+      type: String,
+      enum: ["tv", "movie"],
+      required: true,
+    },
+    mediaId: {
+      type: String,
+      required: true,
+    },
+    mediaTitle: {
+      type: String,
+      required: true,
+    },
+    mediaPoster: {
+      type: String,
+      required: true,
+    },
+  },
+  modelOptions
 );
+
+reviewSchema.methods.deleteDocument = async function () {
+  return await this.model("Review").deleteOne({ _id: this._id });
+};
+
+export default mongoose.model("Review", reviewSchema);

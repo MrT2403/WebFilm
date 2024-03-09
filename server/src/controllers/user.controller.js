@@ -28,7 +28,6 @@ const signup = async (req, res) => {
       id: user.id,
     });
   } catch (error) {
-    console.error(error);
     responseHandler.error(res);
   }
 };
@@ -62,7 +61,6 @@ const signin = async (req, res) => {
       id: user.id,
     });
   } catch (error) {
-    console.error(error);
     responseHandler.error(res);
   }
 };
@@ -88,7 +86,6 @@ const updatePassword = async (req, res) => {
 
     responseHandler.ok(res);
   } catch (error) {
-    console.error(error);
     responseHandler.error(res);
   }
 };
@@ -105,7 +102,6 @@ const getInfo = async (req, res) => {
 
     responseHandler.ok(res, user);
   } catch (error) {
-    console.error(error);
     responseHandler.error(res);
   }
 };

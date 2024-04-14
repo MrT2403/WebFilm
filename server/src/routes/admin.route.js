@@ -16,4 +16,4 @@ router.delete("/transactions/:id", adminController.deleteTransaction);
 
 router.get("/stats", adminController.getWebsiteStats);
 
-module.exports = router;
+export default router;

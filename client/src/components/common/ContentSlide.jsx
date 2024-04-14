@@ -4,7 +4,6 @@ import mediaApi from "../../api/modules/media.api";
 import AutoSwiper from "./AutoSwiper";
 import { toast } from "react-toastify";
 import Item from "./Item";
-import MediaItemSlide from "./Item";
 import PaginationDot from "./PaginationDot";
 
 const ContentSlide = ({ mediaType, mediaCategory }) => {

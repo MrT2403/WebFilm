@@ -1,4 +1,11 @@
-import { Stack, TextField, Typography, Alert, Box } from "@mui/material";
+import {
+  Stack,
+  TextField,
+  Typography,
+  Alert,
+  Box,
+  IconButton,
+} from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -9,12 +16,18 @@ import { setUser } from "../../redux/features/userSlice";
 import { setAuthModalOpen } from "../../redux/features/authModalSlice";
 import userApi from "../../api/modules/user.api";
 import { useTheme } from "@emotion/react";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const Signin = ({ switchAuthState }) => {
   const dispatch = useDispatch();
   const [LoginRequest, setLoginRequest] = useState(false);
   const [errMessage, setErrMessage] = useState();
+  const [showPassword, setShowPassword] = useState(false);
   const theme = useTheme();
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   const signinForm = useFormik({
     initialValues: {
@@ -40,6 +53,7 @@ const Signin = ({ switchAuthState }) => {
       if (err) setErrMessage(err.message);
     },
   });
+
   return (
     <Box component="form" onSubmit={signinForm.handleSubmit}>
       <Stack spacing={3} justifyContent="center" alignItems="center">
@@ -61,7 +75,7 @@ const Signin = ({ switchAuthState }) => {
           required
         />
         <TextField
-          type="password"
+          type={showPassword ? "text" : "password"}
           label="Password"
           variant="outlined"
           name="password"
@@ -75,6 +89,13 @@ const Signin = ({ switchAuthState }) => {
           helperText={signinForm.touched.password && signinForm.errors.password}
           fullWidth
           required
+          InputProps={{
+            endAdornment: (
+              <IconButton onClick={togglePasswordVisibility} size="small">
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            ),
+          }}
         />
 
         <Stack sx={{ cursor: "pointer" }} onClick={() => switchAuthState()}>

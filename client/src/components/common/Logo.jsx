@@ -12,7 +12,7 @@ const Logo = ({ big }) => {
   return (
     <Typography
       fontWeight="700"
-      fontSize={big ? "3rem" : "2rem"} // Thay đổi kích thước dựa trên thuộc tính big
+      fontSize={big ? "3rem" : "2rem"}
       onClick={handleLinkClick}
       sx={{ cursor: "pointer", textDecoration: "none" }}
     >

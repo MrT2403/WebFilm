@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import UserMenu from "./UserMenu";
 import SideBar from "./SideBar";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
+import Notification from "./Notification";
 
 const ScrollAppBar = ({ children, window }) => {
   const { themeMode } = useSelector((state) => state.themeMode);
@@ -70,6 +71,8 @@ const Header = () => {
   };
 
   const toggleSideBar = () => setSidebarOpen(!sidebarOpen);
+
+  const toggleNotification = () => setNotificationOpen(!notificationOpen);
 
   return (
     <>
@@ -137,8 +140,13 @@ const Header = () => {
                   ml: 2,
                   mr: 1,
                 }}
-                onClick={() => setNotificationOpen(!notificationOpen)}
+                onClick={toggleNotification}
               >
+                {/* {toggleNotification ? (
+                  <Notification></Notification>
+                ) : (
+                  <NotificationsOutlinedIcon />
+                )} */}
                 <NotificationsOutlinedIcon />
               </IconButton>
               <IconButton

@@ -15,7 +15,8 @@ import {
 } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+
 import { toast } from "react-toastify";
 
 import Rate from "../components/common/Rate";
@@ -50,6 +51,7 @@ const MediaDetail = () => {
   const [genres, setGenres] = useState([]);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const videoRef = useRef(null);
   const [activeTab, setActiveTab] = useState(0);
@@ -66,7 +68,6 @@ const MediaDetail = () => {
         mediaId,
       });
       dispatch(setGlobalLoading(false));
-
       if (response) {
         setMedia(response);
         setIsFavorite(response.isFavorite);
@@ -130,6 +131,10 @@ const MediaDetail = () => {
     }
   };
 
+  const handleBookingClick = () => {
+    navigate(`/booking/${mediaType}/${media.id}`);
+  };
+
   return media ? (
     <>
       <ImgHeader
@@ -171,7 +176,6 @@ const MediaDetail = () => {
                 }}
               />
             </Box>
-
             <Box
               sx={{
                 width: { xs: "100%", md: "60%" },
@@ -239,6 +243,9 @@ const MediaDetail = () => {
                     onClick={() => videoRef.current.scrollIntoView()}
                   >
                     watch now
+                  </Button>
+                  <Button variant="contained" onClick={handleBookingClick}>
+                    Book Now
                   </Button>
                 </Stack>
               </Stack>

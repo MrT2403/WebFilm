@@ -43,7 +43,6 @@ const MediaList = () => {
         mediaCategory: mediaCategories[currentCategory],
         page: currentPage,
       });
-
       setMediaLoading(false);
       dispatch(setGlobalLoading(false));
 

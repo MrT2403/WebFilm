@@ -7,6 +7,9 @@ import MediaSearch from "../pages/MediaSearch";
 import ReviewList from "../pages/ReviewList";
 import ProtectedPage from "../components/common/ProtectedPage";
 import PasswordUpdate from "../pages/PasswordUpdate";
+import Booking from "../pages/Booking";
+import CinemaList from "../pages/CinemaList";
+import CinemaDetail from "../pages/CinemasDetail";
 
 export const routesGen = {
   home: "/",
@@ -17,6 +20,8 @@ export const routesGen = {
   reviewList: "reviews",
   passwordUpdate: "password-update",
   mediaSearch: "/search",
+  booking: (type, id) => `/booking/${type}/:id`,
+  cinema: "/cinemas",
 };
 
 const routes = [
@@ -63,12 +68,25 @@ const routes = [
     state: "reviews",
   },
   {
+    path: "/booking/:mediaType/:mediaId",
+    element: <Booking></Booking>,
+    state: "reviews",
+  },
+  {
     path: "/:mediaType",
     element: <MediaList></MediaList>,
   },
   {
     path: "/:mediaType/:mediaId",
     element: <MediaDetail></MediaDetail>,
+  },
+  {
+    path: "/cinemas",
+    element: <CinemaList></CinemaList>,
+  },
+  {
+    path: "/cinemas/:type/:loca",
+    element: <CinemaDetail></CinemaDetail>,
   },
 ];
 

@@ -27,7 +27,6 @@ const ReviewItem = ({ review, onRemoved }) => {
     setOnRequest(true);
 
     const { response, err } = await reviewApi.remove({ reviewId: review.id });
-    console.log("response remove review: ", response);
     if (err) toast.error(err.message);
     if (response) onRemoved(review.id);
   };
@@ -109,7 +108,6 @@ const MediaReview = ({ reviews, media, mediaType }) => {
     };
 
     const { response, err } = await reviewApi.add(body);
-    console.log("response: review", response);
     setOnRequest(false);
 
     if (err) toast.error(err.message);
@@ -132,7 +130,6 @@ const MediaReview = ({ reviews, media, mediaType }) => {
 
   const onRemoved = (id) => {
     if (listReviews.findIndex((e) => e.id === id) !== -1) {
-      console.log("helloooooo");
       const newListReviews = [...listReviews].filter((e) => e.id !== id);
       setListReviews(newListReviews);
       setFilteredReviews([...newListReviews].splice(0, page * skip));

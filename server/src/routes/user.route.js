@@ -5,6 +5,7 @@ import userController from "../controllers/user.controller.js";
 import requestHandler from "../handlers/request.handler.js";
 import userModel from "../models/user.model.js";
 import tokenMiddleware from "../middlewares/token.middleware.js";
+import notificationController from "../controllers/notification.controller.js";
 
 const router = express.Router();
 
@@ -93,6 +94,8 @@ router.get(
   tokenMiddleware.auth,
   favoriteController.getFavoritesOfUser
 );
+
+router.get("/notifications", tokenMiddleware.auth, notificationController.get);
 
 router.post(
   "/favorites",

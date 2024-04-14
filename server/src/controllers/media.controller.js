@@ -14,9 +14,8 @@ const getList = async (req, res) => {
       mediaCategory,
       page,
     });
-
     return responseHandler.ok(res, response);
-  } catch {
+  } catch (err) {
     responseHandler.error(res, err);
   }
 };
@@ -29,10 +28,8 @@ const getTrending = async (req, res) => {
       mediaCategory,
       timeWindow,
     });
-    console.log("response trending: ", response);
     return responseHandler.ok(res, response);
   } catch (err) {
-    console.log("err trend: ", err);
     responseHandler.error(res);
   }
 };
@@ -43,7 +40,6 @@ const getGeneres = async (req, res) => {
     const response = await tmdbApi.mediaGenres({ mediaType });
     return responseHandler.ok(res, response);
   } catch (error) {
-    console.error(error);
     responseHandler.error(res);
   }
 };
@@ -52,15 +48,11 @@ const search = async (req, res) => {
   try {
     const { mediaType } = req.params;
     const { query, page } = req.query;
-    console.log("mediaType: ", mediaType);
-    console.log("query, page: ", query);
-    console.log("page: ", page);
     const response = await tmdbApi.mediaSearch({
       query,
       page,
       mediaType: mediaType === "people" ? "person" : mediaType,
     });
-    console.log("response search controoler: ", response);
     return responseHandler.ok(res, response);
   } catch {
     responseHandler.error(res);
@@ -99,7 +91,6 @@ const getDetail = async (req, res) => {
 
     responseHandler.ok(res, media);
   } catch (e) {
-    console.log(e);
     responseHandler.error(res);
   }
 };

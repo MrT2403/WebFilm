@@ -33,10 +33,7 @@ const UserMenu = () => {
           }}
           onClick={toggleMenu}
         >
-          {/* {user.username
-            ? user.username
-            : JSON.parse(user.config.data).username} */}
-          {user.username}
+          <Typography>Hi, {user.username}</Typography>
         </Typography>
       )}
       <Menu

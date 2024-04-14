@@ -12,7 +12,7 @@ const EmailForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/email/subscribe", { email });
+      const response = await axios.post("/email/subscribe", { email });
       console.log("Server response:", response.data);
       setEmail("");
     } catch (error) {

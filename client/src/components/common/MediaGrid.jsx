@@ -2,7 +2,7 @@ import { Grid } from "@mui/material";
 import Item from "./Item";
 
 const MediaGrid = ({ medias, mediaType }) => {
-  if (medias && Array.isArray(medias)) {
+  if (medias && Array.isArray(medias) && medias.poster_path !== null) {
     return (
       <Grid container spacing={1}>
         {medias.map((media, index) => (

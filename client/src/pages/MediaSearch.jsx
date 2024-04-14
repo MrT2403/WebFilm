@@ -24,6 +24,40 @@ const MediaSearch = () => {
   const [loading, setLoading] = useState(false);
   const [noResults, setNoResults] = useState(false);
   const [fromSpeechRecognition, setFromSpeechRecognition] = useState(false);
+  const [searchHistory, setSearchHistory] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [searchClickedTwice, setSearchClickedTwice] = useState(false);
+
+  useEffect(() => {
+    const storedHistory = JSON.parse(localStorage.getItem("searchHistory"));
+    if (storedHistory) {
+      setSearchHistory(storedHistory);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (query === "" && searchHistory.length > 0 && searchClickedTwice) {
+      setShowSuggestions(true);
+    } else {
+      setShowSuggestions(false);
+    }
+  }, [query, searchHistory, searchClickedTwice]);
+
+  const saveSearchHistory = (searchInfo) => {
+    const { query, mediaType } = searchInfo;
+    if (query.trim() !== "") {
+      const updatedHistory = [searchInfo, ...searchHistory.slice(0, 4)];
+      localStorage.setItem("searchHistory", JSON.stringify(updatedHistory));
+      setSearchHistory(updatedHistory);
+    }
+  };
+
+  const removeSearchHistory = (index) => {
+    const updatedHistory = [...searchHistory];
+    updatedHistory.splice(index, 1);
+    localStorage.setItem("searchHistory", JSON.stringify(updatedHistory));
+    setSearchHistory(updatedHistory);
+  };
 
   const search = useCallback(async () => {
     setLoading(true);
@@ -38,12 +72,14 @@ const MediaSearch = () => {
     if (err) toast.error(err.message);
     if (response) {
       const results = response.results;
-      if (page > 1) {
-        setMedias((m) => [...m, ...results]);
-      } else {
+      if (page === 1) {
         setMedias([...results]);
+      } else {
+        setMedias((m) => [...m, ...results]);
       }
       setNoResults(results.length === 0);
+
+      saveSearchHistory({ query, mediaType });
     }
   }, [mediaType, query, page]);
 
@@ -101,6 +137,19 @@ const MediaSearch = () => {
     await search();
   };
 
+  const handleSuggestionClick = (history) => {
+    setQuery(history.query);
+    setMediaType(history.mediaType);
+    setSearchClickedTwice(false);
+    search();
+  };
+
+  useEffect(() => {
+    if (query === "" && searchClickedTwice) {
+      search();
+    }
+  }, [query, searchClickedTwice]);
+
   return (
     <>
       <Toolbar />
@@ -138,6 +187,12 @@ const MediaSearch = () => {
               autoFocus
               autoComplete="new-password"
               onChange={onQueryChange}
+              onClick={() => {
+                if (query === "" && searchHistory.length > 0) {
+                  setShowSuggestions(true);
+                  setSearchClickedTwice(true);
+                }
+              }}
             />
 
             {hasRecognitionSupport ? (
@@ -159,6 +214,29 @@ const MediaSearch = () => {
               <div>Your browser has no speech recognition support</div>
             )}
           </div>
+
+          {showSuggestions && (
+            <Stack spacing={1} sx={{ mt: 1 }}>
+              <p>Search history:</p>
+              {searchHistory.map((history, index) => (
+                <Stack key={index} direction="row" alignItems="center">
+                  <Button
+                    onClick={() => handleSuggestionClick(history)}
+                    sx={{ flexGrow: 1 }}
+                  >
+                    {history.query} - {history.mediaType}
+                  </Button>
+                  <Button
+                    onClick={() => removeSearchHistory(index)}
+                    variant="outlined"
+                    color="error"
+                  >
+                    Remove
+                  </Button>
+                </Stack>
+              ))}
+            </Stack>
+          )}
 
           {noResults && !fromSpeechRecognition ? (
             <Box sx={{ textAlign: "center" }}>

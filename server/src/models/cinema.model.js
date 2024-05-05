@@ -1,7 +1,18 @@
-import { mongoose } from "mongoose";
+import { Schema, model } from "mongoose";
 import modelOptions from "./model.options.js";
 
-const cinemaSchema = new mongoose.Schema(
+const moviePlayingSchema = new Schema({
+  movieId: {
+    type: String,
+    required: true,
+  },
+  showtime: {
+    type: [String],
+    required: true,
+  },
+});
+
+const cinemaSchema = new Schema(
   {
     name: {
       type: String,
@@ -15,8 +26,28 @@ const cinemaSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    movie_playing: [
+      {
+        movieId: {
+          type: String,
+          required: true,
+        },
+        showtime: [
+          {
+            date: {
+              type: String,
+              required: true,
+            },
+            times: {
+              type: [String],
+              required: true,
+            },
+          },
+        ],
+      },
+    ],
   },
   modelOptions
 );
 
-export default mongoose.model("Cinema", cinemaSchema);
+export default model("Cinema", cinemaSchema);

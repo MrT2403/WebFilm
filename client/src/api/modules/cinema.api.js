@@ -3,7 +3,7 @@ import privateClient from "../client/private.client";
 
 const cinemaEndpoints = {
   list: "/cinemas",
-  movieId: ({ mediaId }) => `/cinemas/${mediaId}`,
+  movieId: ({ mediaId }) => `/cinemas/movie/${mediaId}`,
   getCinemaByTypeAndLocation: ({ type, loca }) => `/cinemas/${type}/${loca}`,
   add: "/cinemas",
   update: "/cinemas/:id",

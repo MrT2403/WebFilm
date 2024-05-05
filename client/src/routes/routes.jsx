@@ -10,6 +10,7 @@ import PasswordUpdate from "../pages/PasswordUpdate";
 import Booking from "../pages/Booking";
 import CinemaList from "../pages/CinemaList";
 import CinemaDetail from "../pages/CinemasDetail";
+import Payment from "../pages/Payment";
 
 export const routesGen = {
   home: "/",
@@ -22,6 +23,7 @@ export const routesGen = {
   mediaSearch: "/search",
   booking: (type, id) => `/booking/${type}/:id`,
   cinema: "/cinemas",
+  payment: "/payment",
 };
 
 const routes = [
@@ -70,7 +72,7 @@ const routes = [
   {
     path: "/booking/:mediaType/:mediaId",
     element: <Booking></Booking>,
-    state: "reviews",
+    state: "booking",
   },
   {
     path: "/:mediaType",
@@ -87,6 +89,10 @@ const routes = [
   {
     path: "/cinemas/:type/:loca",
     element: <CinemaDetail></CinemaDetail>,
+  },
+  {
+    path: "/payment",
+    element: <Payment></Payment>,
   },
 ];
 

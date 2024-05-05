@@ -43,6 +43,7 @@ const MediaList = () => {
         mediaCategory: mediaCategories[currentCategory],
         page: currentPage,
       });
+      console.log("response: ", response.results[(0, 9)].id);
       setMediaLoading(false);
       dispatch(setGlobalLoading(false));
 

@@ -1,0 +1,509 @@
+{
+    "User": [
+        {
+            "id": 1,
+            "nameUser": "thu123",
+            "email": "thu.vo25@student.passerellesnumriques.org",
+            "password": "123123",
+            "role": "admin"
+        },
+        {
+            "id": 2,
+            "nameUser": "thao123",
+            "email": "thao.le25@student.passerellesnumriques.org",
+            "password": "123123",
+            "role": "user"
+        },
+        {
+            "id": 3,
+            "nameUser": "duyen123",
+            "email": "duyen.dinh25@student.passerellesnumriques.org",
+            "password": "123123",
+            "role": "user"
+        },
+        {
+            "id": 4,
+            "nameUser": "bon123",
+            "email": "bon.a25@student.passerellesnumriques.org",
+            "password": "123123",
+            "role": "user"
+        },
+        {
+            "id": 1697628280710,
+            "nameUser": "thu",
+            "email": "thu@gmail.com",
+            "password": "12345678",
+            "password2": "1234567",
+            "role": "user"
+        },
+        {
+            "id": 1697637200775,
+            "nameUser": "thu",
+            "email": "thu@gmail1.com",
+            "password": "1234567",
+            "password2": "1234567",
+            "role": "user"
+        },
+        {
+            "id": 1697789201656,
+            "nameUser": "lopchungminh",
+            "email": "fdrs@gmail.com",
+            "password": "1234567",
+            "role": "user"
+        },
+        {
+            "id": 1697789201657,
+            "nameUser": "lopchungminh",
+            "email": "fdrs@gmail.com",
+            "password": "1234567",
+            "role": "user"
+        },
+        {
+            "id": 1697789201659,
+            "nameUser": "lopchungminh",
+            "email": "fdrs@gmail.com",
+            "password": "1234567",
+            "role": "user"
+        },
+        {
+            "id": 1697789201662,
+            "nameUser": "lopchungminh",
+            "email": "fdrs@gmail.com",
+            "password": "1234567",
+            "role": "user"
+        },
+        {
+            "id": 1697789201660,
+            "nameUser": "lopchungminh",
+            "email": "fdrs@gmail.com",
+            "password": "1234567",
+            "role": "user"
+        },
+        {
+            "id": 1698892157173,
+            "nameUser": "thu",
+            "email": "thu@gmail2.com",
+            "password": "thu123456",
+            "role": "user"
+        },
+        {
+            "id": 1699029982724,
+            "nameUser": "thu123",
+            "email": "t@gmail.com",
+            "password": "123123123",
+            "role": "user"
+        },
+        {
+            "id": 1699094397739,
+            "nameUser": "usertest",
+            "email": "test@gmail.com",
+            "password": "1231231231234",
+            "role": "user"
+        },
+        {
+            "id": 1699094397741,
+            "nameUser": "1111111111",
+            "email": "thanh@gmail.com",
+            "password": "1111",
+            "role": "user",
+            "name": "111111111111111"
+        }
+    ],
+    "Sevicese": [
+        {
+            "nameService": "Body Massage",
+            "price": 68000,
+            "image": "https://img.freepik.com/free-photo/beauty-spa_144627-46202.jpg?size=626&ext=jpg&uid=R118456395&ga=GA1.2.650210055.1693416336&semt=sph",
+            "details": "The effect of full body massage is to help reduce stress.Helps blood circulation and stabilize blood pressureFull body massage helps firm skin and prevents aging.",
+            "id": "1"
+        },
+        {
+            "nameService": "Face Massage",
+            "price": 53000,
+            "image": "https://img.freepik.com/free-photo/attractive-woman-getting-face-beauty-procedures-spa-salon_1098-18097.jpg?size=626&ext=jpg&uid=R118456395&ga=GA1.2.650210055.1693416336&semt=ais",
+            "details": "Effects of facial massage. Anti-aging and reduces wrinkles. Reduce sinus pressure. Limit the appearance of acne Reduce symptoms of temporomandibular disorders.",
+            "id": "2"
+        },
+        {
+            "nameService": "Back Massage",
+            "price": 81000,
+            "image": "https://img.freepik.com/free-photo/beauty-spa_144627-46183.jpg?size=626&ext=jpg&uid=R118456395&ga=GA1.2.650210055.1693416336&semt=ais",
+            "details": "Back massage reduces pain because it helps relax muscles, widen joint spaces, and release pressure on roots and nerves.",
+            "id": "3"
+        },
+        {
+            "nameService": "Foot Massage",
+            "price": 70000,
+            "image": "https://img.freepik.com/free-photo/foot-washing-spa-before-treatment-spa-treatment-product-female-feet-hand-spa_1150-37703.jpg?size=626&ext=jpg&uid=R118456395&ga=GA1.2.650210055.1693416336&semt=ais",
+            "details": "Foot Massage affects blood vessels, muscles and nerves, and acupressure points under the feet. Helps increase blood circulation and stabilize blood circulation.",
+            "id": "4"
+        },
+        {
+            "nameService": "Nourishing Shampoo",
+            "price": 75000,
+            "image": "https://img.freepik.com/free-photo/woman-washing-head-hairsalon_1157-27179.jpg?w=996&t=st=1696650012~exp=1696650612~hmac=cc2dec067b2c87b260f9e9db6b0465d7d3d4116e110ee0a43a5b195eeb716b44",
+            "details": "Agran has outstanding effectiveness in nourishing and restoring hair. Specially combined with Jojoba and almond essential oils create a nutrient source of vitamins C, E and omega 3.6.9 ",
+            "id": "5"
+        },
+        {
+            "nameService": "Acupuncture",
+            "price": 23000,
+            "image": "https://img.freepik.com/free-photo/acupuncture-process_23-2148824045.jpg?w=740&t=st=1696644903~exp=1696645503~hmac=df9d0398e771b6ca874fba3a8055fa96e82d6ccb664682a326de0e4f89a391ca",
+            "details": "Effects of facial massage. Anti-aging and reduces wrinkles. Reduce sinus pressure. Limit the appearance of acne Reduce symptoms of temporomandibular disorders.",
+            "id": "6"
+        },
+        {
+            "nameService": "Arm Massage",
+            "price": 89000,
+            "image": "https://img.freepik.com/free-photo/beautician-massaging-hand-female-spa-salon-client-spa-treatment-product-female-feet-hand-spa_1150-37699.jpg?w=996&t=st=1696650222~exp=1696650822~hmac=d7c456944a5e532bdf7754ff7fb377968f423cbe23e6af965e7e6f717c750d08",
+            "details": "Hand massage can increase flexibility and mobility of joints.",
+            "id": "7"
+        },
+        {
+            "nameService": "Intensive skin care",
+            "price": 24000,
+            "image": "https://img.freepik.com/free-photo/attractive-freshness-asian-woman-clean-face-fresh-water-with-care-look-mirror-bathroom-home-background_609648-2404.jpg?size=626&ext=jpg&uid=R118456395&ga=GA1.2.650210055.1693416336&semt=ais",
+            "details": "Increases skin moisture.Helps skin relax.Deeply cleans and tightens pores.Reduce acne, blackheads, prevent inflammatory acne",
+            "id": "8"
+        },
+        {
+            "nameService": "Steam bath",
+            "price": 72000,
+            "image": "https://img.freepik.com/free-photo/beautiful-young-woman-relaxing-bathtub_74190-12396.jpg?size=626&ext=jpg&uid=R118456395&ga=GA1.2.650210055.1693416336&semt=ais",
+            "details": "Steam baths can significantly enhance cardiovascular health. A study conducted on elderly people showed that moist heat helps improve circulation, especially circulation in the limbs.",
+            "id": "9"
+        },
+        {
+            "nameService": "herbal foot soak",
+            "price": 540000,
+            "image": "https://img.freepik.com/free-photo/spa-treatment-product-female-feet-hand-spa-orchid-flowers-ceramic-bowl_1150-37717.jpg?w=996&t=st=1696651219~exp=1696651819~hmac=8a1f5a43446177cff4370c79e0e5609c6d9dca82353d6965e32436055eb6bbfb",
+            "details": "Helps the mind relax, reduce anxiety and stress.Treatment of some diseases: Insomnia, painful and swollen leg joints, cold feet, high blood pressure, dizziness",
+            "id": "10"
+        },
+        {
+            "nameService": "massage 1",
+            "price": "111111",
+            "image": "https://kenh14cdn.com/thumb_w/660/2020/7/17/brvn-15950048783381206275371.jpg",
+            "details": "123",
+            "id": "yVayvwu"
+        },
+        {
+            "nameService": "thu",
+            "price": "1111",
+            "image": "tưead",
+            "details": "ửgsfd",
+            "id": "GFdASmC"
+        }
+    ],
+    "booking": [
+        {
+            "user": {
+                "id": 1697637200775,
+                "nameUser": "thu",
+                "email": "thu@gmail.com",
+                "password": "1234567",
+                "password2": "1234567",
+                "role": "user"
+            },
+            "service": {
+                "nameService": "Face Massage",
+                "price": 53000,
+                "image": "https://img.freepik.com/free-photo/attractive-woman-getting-face-beauty-procedures-spa-salon_1098-18097.jpg?size=626&ext=jpg&uid=R118456395&ga=GA1.2.650210055.1693416336&semt=ais",
+                "details": "Effects of facial massage. Anti-aging and reduces wrinkles. Reduce sinus pressure. Limit the appearance of acne Reduce symptoms of temporomandibular disorders.",
+                "id": "2"
+            },
+            "bookingDate": "11/23/2023",
+            "time": "21",
+            "status": "booking",
+            "id": 1
+        },
+        {
+            "user": {
+                "id": 1697637200775,
+                "nameUser": "thu",
+                "email": "thu@gmail.com",
+                "password": "1234567",
+                "password2": "1234567",
+                "role": "user"
+            },
+            "service": {
+                "nameService": "Body Massage",
+                "price": 68000,
+                "image": "https://img.freepik.com/free-photo/beauty-spa_144627-46202.jpg?size=626&ext=jpg&uid=R118456395&ga=GA1.2.650210055.1693416336&semt=sph",
+                "details": "The effect of full body massage is to help reduce stress.Helps blood circulation and stabilize blood pressureFull body massage helps firm skin and prevents aging.",
+                "id": "1"
+            },
+            "bookingDate": "11/03/2023",
+            "time": "21",
+            "status": "booking",
+            "id": 2
+        },
+        {
+            "user": {
+                "id": 1697637200775,
+                "nameUser": "thu",
+                "email": "thu@gmail.com",
+                "password": "1234567",
+                "password2": "1234567",
+                "role": "user"
+            },
+            "service": {
+                "nameService": "Body Massage",
+                "price": 68000,
+                "image": "https://img.freepik.com/free-photo/beauty-spa_144627-46202.jpg?size=626&ext=jpg&uid=R118456395&ga=GA1.2.650210055.1693416336&semt=sph",
+                "details": "The effect of full body massage is to help reduce stress.Helps blood circulation and stabilize blood pressureFull body massage helps firm skin and prevents aging.",
+                "id": "1"
+            },
+            "bookingDate": "11/04/2023",
+            "time": "11",
+            "status": "booking",
+            "id": 3
+        },
+        {
+            "user": {
+                "id": 1699029982724,
+                "nameUser": "thu123",
+                "email": "t@gmail.com",
+                "password": "123123123",
+                "role": "user"
+            },
+            "service": {
+                "nameService": "Back Massage",
+                "price": 81000,
+                "image": "https://img.freepik.com/free-photo/beauty-spa_144627-46183.jpg?size=626&ext=jpg&uid=R118456395&ga=GA1.2.650210055.1693416336&semt=ais",
+                "details": "Back massage reduces pain because it helps relax muscles, widen joint spaces, and release pressure on roots and nerves.",
+                "id": "3"
+            },
+            "bookingDate": "11/04/2023",
+            "time": "11",
+            "status": "booking",
+            "id": 4
+        }
+    ],
+    "services": [
+        {
+            "id": 21,
+            "name": "Full back Massage",
+            "price": "20$",
+            "Time": "(30-60 minutes)",
+            "img": "../../asserts/img/back/back-massage-therapy-concept.jpg",
+            "more": "More",
+            "type": "MostMassage",
+            "infor": "Widen joint spaces, and release pressure on roots and nerves. At the same time, back massage reduces fatigue, gradually increases movement of the restricted spinal segment, and increases circulation to nourish the painful area."
+        },
+        {
+            "id": 22,
+            "name": "Back Massage with hot stones",
+            "price": "15$",
+            "Time": "(30-50 minutes)",
+            "img": "../../asserts/img/back/stones-3184610_640.jpg",
+            "more": "More",
+            "type": "MostMassage",
+            "infor": "Widen joint spaces, and release pressure on roots and nerves. At the same time, back massage reduces fatigue, gradually increases movement of the restricted spinal segment, and increases circulation to nourish the painful area."
+        },
+        {
+            "id": 23,
+            "name": "Massage and apply oil",
+            "price": "17$",
+            "Time": "(30-40 minutes)",
+            "img": "../../asserts/img/back/honey-pouring-woman-s-naked-back-spa-salon.jpg",
+            "more": "More",
+            "type": "MostMassage",
+            "infor": "Widen joint spaces, and release pressure on roots and nerves. At the same time, back massage reduces fatigue, gradually increases movement of the restricted spinal segment, and increases circulation to nourish the painful area."
+        },
+        {
+            "id": 1,
+            "name": "Full back Massage",
+            "price": "20$",
+            "Time": "(30-60 minutes)",
+            "img": "../../asserts/img/back/back-massage-therapy-concept.jpg",
+            "type": "BackMassage",
+            "infor": "Widen joint spaces, and release pressure on roots and nerves. At the same time, back massage reduces fatigue, gradually increases movement of the restricted spinal segment, and increases circulation to nourish the painful area."
+        },
+        {
+            "id": 2,
+            "name": "Back Massage with hot stones",
+            "price": "15$",
+            "Time": "(30-50 minutes)",
+            "img": "../../asserts/img/back/stones-3184610_640.jpg",
+            "type": "BackMassage",
+            "infor": "Widen joint spaces, and release pressure on roots and nerves. At the same time, back massage reduces fatigue, gradually increases movement of the restricted spinal segment, and increases circulation to nourish the painful area."
+        },
+        {
+            "id": 3,
+            "name": "Massage and apply oil",
+            "price": "17$",
+            "Time": "(30-40 minutes)",
+            "img": "../../asserts/img/back/honey-pouring-woman-s-naked-back-spa-salon.jpg",
+            "type": "BackMassage",
+            "infor": "Widen joint spaces, and release pressure on roots and nerves. At the same time, back massage reduces fatigue, gradually increases movement of the restricted spinal segment, and increases circulation to nourish the painful area."
+        },
+        {
+            "id": 4,
+            "name": "Back Massage",
+            "price": "15$",
+            "Time": "(30-60 minute)",
+            "img": "../../asserts/img/back/female-model-having-massage-spa.jpg",
+            "type": "BackMassage",
+            "infor": "Widen joint spaces, and release pressure on roots and nerves. At the same time, back massage reduces fatigue, gradually increases movement of the restricted spinal segment, and increases circulation to nourish the painful area."
+        },
+        {
+            "id": 5,
+            "name": "Calf Massage",
+            "price": "2.2$",
+            "Time": "(20 minutes)",
+            "img": "../../asserts/img/leg/close-up-hands-massaging-leg.jpg",
+            "type": "FootMassage",
+            "infor": "Widen joint spaces, and release pressure on roots and nerves. At the same time, back massage reduces fatigue, gradually increases movement of the restricted spinal segment, and increases circulation to nourish the painful area."
+        },
+        {
+            "id": 6,
+            "name": "Akle Massage",
+            "price": "2.2$",
+            "Time": "(10 minutes)",
+            "img": "../../asserts/img/leg/close-up-foot-massage-concept.jpg",
+            "type": "FootMassage",
+            "infor": "Widen joint spaces, and release pressure on roots and nerves. At the same time, back massage reduces fatigue, gradually increases movement of the restricted spinal segment, and increases circulation to nourish the painful area."
+        },
+        {
+            "id": 7,
+            "name": "Massage the soles of the feet",
+            "price": "2.5$",
+            "Time": "(10 minutes)",
+            "img": "../../asserts/img/leg/close-up-woman-doing-foot-massage-spa.jpg",
+            "type": "FootMassage",
+            "infor": "Widen joint spaces, and release pressure on roots and nerves. At the same time, back massage reduces fatigue, gradually increases movement of the restricted spinal segment, and increases circulation to nourish the painful area."
+        },
+        {
+            "id": 8,
+            "name": "Full foot Massage",
+            "price": "10$",
+            "Time": "(60 minute)",
+            "img": "../../asserts/img/leg/closeup-female-masseuse-giving-foot-massage-one-her-clients-health-beauty-spa.jpg",
+            "type": "FootMassage",
+            "infor": "Widen joint spaces, and release pressure on roots and nerves. At the same time, back massage reduces fatigue, gradually increases movement of the restricted spinal segment, and increases circulation to nourish the painful area."
+        },
+        {
+            "id": 9,
+            "name": "Massage body",
+            "price": "20$",
+            "Time": "(30-60 minutes)",
+            "img": "../../asserts/img/body/two-cute-young-women-enjoy-relaxing-during-massage-spa.jpg",
+            "type": "BodyMassage",
+            "infor": "Widen joint spaces, and release pressure on roots and nerves. At the same time, back massage reduces fatigue, gradually increases movement of the restricted spinal segment, and increases circulation to nourish the painful area."
+        },
+        {
+            "id": 10,
+            "name": "Massage Full body",
+            "price": "20$",
+            "Time": "(30-60 minutes)",
+            "img": "../../asserts/img/body/masseur-doing-massage-backbone-man-body-spa-salon-beauty-treatment-concept (1).jpg",
+            "type": "BodyMassage",
+            "infor": "Widen joint spaces, and release pressure on roots and nerves. At the same time, back massage reduces fatigue, gradually increases movement of the restricted spinal segment, and increases circulation to nourish the painful area."
+        },
+        {
+            "id": 11,
+            "name": "Massage new body",
+            "price": "2.5$",
+            "Time": "(10 minutes)",
+            "img": "../../asserts/img/body/istockphoto-1162187810-1024x1024.jpg",
+            "type": "BodyMassage",
+            "infor": "Widen joint spaces, and release pressure on roots and nerves. At the same time, back massage reduces fatigue, gradually increases movement of the restricted spinal segment, and increases circulation to nourish the painful area."
+        },
+        {
+            "id": 12,
+            "name": "Massage bodybody",
+            "price": "10$",
+            "Time": "(60 minute)",
+            "img": "../../asserts/img/body/woman-567021_640.jpg",
+            "type": "BodyMassage",
+            "infor": "Widen joint spaces, and release pressure on roots and nerves. At the same time, back massage reduces fatigue, gradually increases movement of the restricted spinal segment, and increases circulation to nourish the painful area."
+        },
+        {
+            "id": 13,
+            "name": "Apply lotion",
+            "price": "5$",
+            "Time": "(20 minutes)",
+            "img": "../../asserts/img/face/istockphoto-1125908113-1024x1024.jpg",
+            "type": "FacialCare",
+            "infor": "Widen joint spaces, and release pressure on roots and nerves. At the same time, back massage reduces fatigue, gradually increases movement of the restricted spinal segment, and increases circulation to nourish the painful area."
+        },
+        {
+            "id": 14,
+            "name": "Mask",
+            "price": "20$",
+            "Time": "(30-60 minutes)",
+            "img": "../../asserts/img/face/young-woman-spa-salon-with-cosmetic-mask-face-high-angle-photo.jpg",
+            "type": "FacialCare",
+            "infor": "Widen joint spaces, and release pressure on roots and nerves. At the same time, back massage reduces fatigue, gradually increases movement of the restricted spinal segment, and increases circulation to nourish the painful area."
+        },
+        {
+            "id": 15,
+            "name": "Head Massage",
+            "price": "20$",
+            "Time": "(30-60 minutes)",
+            "img": "../../asserts/img/face/beautiful-young-woman-having-spa-massage-head-beauty-salon-indoors.jpg",
+            "type": "FacialCare",
+            "infor": "Widen joint spaces, and release pressure on roots and nerves. At the same time, back massage reduces fatigue, gradually increases movement of the restricted spinal segment, and increases circulation to nourish the painful area."
+        },
+        {
+            "id": 16,
+            "name": "Peeling acne",
+            "price": "10$",
+            "Time": "(30-60 minute)",
+            "img": "../../asserts/img/face/cosmetologist-applying-mask-face-client-beauty-salon.jpg",
+            "type": "FacialCare",
+            "infor": "Widen joint spaces, and release pressure on roots and nerves. At the same time, back massage reduces fatigue, gradually increases movement of the restricted spinal segment, and increases circulation to nourish the painful area."
+        }
+    ],
+    "products": [
+        {
+            "nameCombo": "Traditional Massage",
+            "img": "https://jthemes.net/themes/html/spamagic/files/images/serv-13.jpg",
+            "infor": "Massage, Spa Services",
+            "details": "details 1",
+            "price": "86.00",
+            "id": "1"
+        },
+        {
+            "nameCombo": "Aromatherapy Facial",
+            "img": "https://jthemes.net/themes/html/spamagic/files/images/serv-14.jpg",
+            "infor": "Herbal Care, Aromatherapy",
+            "details": "details 2",
+            "price": "95.00",
+            "id": "2"
+        },
+        {
+            "nameCombo": "Deep Tissue Massage",
+            "img": "https://jthemes.net/themes/html/spamagic/files/images/serv-15.jpg",
+            "infor": "Massage, Spa Services",
+            "details": "details 3",
+            "price": "120.00",
+            "id": "3"
+        },
+        {
+            "nameCombo": "Oils & Aromatherapy",
+            "img": "https://jthemes.net/themes/html/spamagic/files/images/serv-18.jpg",
+            "infor": "Wellness, Aromatherapy",
+            "details": "details 4",
+            "price": "72.00",
+            "id": "4"
+        },
+        {
+            "nameCombo": "Hydrotherapy",
+            "img": "https://jthemes.net/themes/html/spamagic/files/images/serv-16.jpg",
+            "infor": "Treatments, Spa Services",
+            "details": "details 5",
+            "price": "68.00",
+            "id": "5"
+        },
+        {
+            "nameCombo": "Supreme Skicare",
+            "img": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/604.jpg",
+            "infor": "Massage, Herbal Care",
+            "details": "details 6",
+            "price": "90.00",
+            "id": "6"
+        }
+    ]
+}

@@ -9,18 +9,13 @@ const Payment = () => {
   const navigate = useNavigate();
 
   const { name, cinema, date, time, seat, price } = location.state;
-
-  // Chuyển đổi mảng seat thành chuỗi với dấu phẩy
   const seatString = seat.join(", ");
 
   const handleBackClick = () => {
     navigate(-1);
   };
 
-  const handleConfirmClick = () => {
-    // Thực hiện logic xử lý thanh toán ở đây
-    // Điều hướng đến trang thanh toán hoặc xử lý thanh toán trực tiếp trong component này
-  };
+  const handleConfirmClick = () => {};
 
   return (
     <Box sx={{ ...uiConfigs.style.mainContent, margin: "0 5rem 5rem" }}>
@@ -39,7 +34,6 @@ const Payment = () => {
           <Typography variant="body1" gutterBottom>
             Time: {time}
           </Typography>
-          {/* Hiển thị danh sách ghế đã chọn với dấu phẩy */}
           <Typography variant="body1" gutterBottom>
             Seat: {seatString}
           </Typography>
@@ -48,11 +42,9 @@ const Payment = () => {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          {/* Nút Back */}
           <Button variant="contained" onClick={handleBackClick}>
             Back
           </Button>
-          {/* Nút Confirm */}
           <Button
             variant="contained"
             color="primary"

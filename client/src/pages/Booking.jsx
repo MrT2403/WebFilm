@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Button, Grid, Box, Select, MenuItem } from "@mui/material";
+import {
+  Typography,
+  Button,
+  Grid,
+  Box,
+  Select,
+  MenuItem,
+  Modal,
+} from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import uiConfigs from "../configs/ui.configs";
 import Container from "../components/common/Container";
@@ -9,6 +17,7 @@ import mediaApi from "../api/modules/media.api";
 import cinemaApi from "../api/modules/cinema.api";
 import { toast } from "react-toastify";
 import Seat from "../components/common/Seat";
+import QRCode from "qrcode.react";
 
 const Booking = () => {
   const navigate = useNavigate();
@@ -20,8 +29,9 @@ const Booking = () => {
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedShowtime, setSelectedShowtime] = useState(null);
   const [selectedSeats, setSelectedSeats] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0); // State để lưu trữ tổng giá tiền
-
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [paymentInfo, setPaymentInfo] = useState(null);
   useEffect(() => {
     const getMedia = async () => {
       try {
@@ -112,16 +122,7 @@ const Booking = () => {
       toast.error("Please select a showtime.");
       return;
     }
-    const paymentDetails = {
-      mediaType: mediaType,
-      name: media.title || media.name,
-      cinema: selectedCinemaId,
-      date: selectedDate,
-      time: selectedShowtime,
-      seat: selectedSeats,
-      price: totalPrice,
-    };
-    navigate("/payment", { state: paymentDetails });
+    setShowPaymentModal(true);
   };
 
   const handleShowtimeClick = (selectedTime) => {
@@ -130,15 +131,12 @@ const Booking = () => {
 
   const handleSeatClick = (seatNumber) => {
     setSelectedSeats((prevSelectedSeats) => {
-      // Check if seatNumber is already selected
       const isSeatSelected = prevSelectedSeats.includes(seatNumber);
-      // If selected, remove from selectedSeats
       if (isSeatSelected) {
         return prevSelectedSeats.filter(
           (selectedSeat) => selectedSeat !== seatNumber
         );
       } else {
-        // If not selected, add to selectedSeats
         return [...prevSelectedSeats, seatNumber];
       }
     });
@@ -150,10 +148,14 @@ const Booking = () => {
     setTotalPrice(totalPrice);
   }, [selectedSeats]);
 
+  const handlePaymentSuccess = (paymentResponse) => {
+    setPaymentInfo(paymentResponse);
+    setShowPaymentModal(true);
+  };
+
   return (
     <>
       <Box>
-        {/* Header */}
         <ImgHeader
           imgPath={
             media
@@ -163,12 +165,9 @@ const Booking = () => {
               : ""
           }
         />
-        {/* Main content */}
         <Box sx={{ ...uiConfigs.style.mainContent, margin: "0 5rem 5rem" }}>
           <Container header="Booking" maxWidth="md" sx={{ padding: 0 }}>
-            {/* Booking content */}
             <Grid container spacing={2} sx={{ marginTop: "2rem" }}>
-              {/* Movie title */}
               <Grid item xs={12}>
                 <Typography variant="h4" gutterBottom sx={{ padding: 0 }}>
                   Movie:{" "}
@@ -180,7 +179,6 @@ const Booking = () => {
                     }`}
                 </Typography>
               </Grid>
-              {/* Select cinema */}
               <Grid item xs={12}>
                 <Typography variant="h6" gutterBottom>
                   Select Cinema:
@@ -197,7 +195,6 @@ const Booking = () => {
                   ))}
                 </Select>
               </Grid>
-              {/* Select date */}
               <Grid item xs={12}>
                 <Typography variant="h6" gutterBottom>
                   Select Date:
@@ -219,7 +216,6 @@ const Booking = () => {
                   )}
                 </Select>
               </Grid>
-              {/* Showtimes */}
               <Box
                 sx={{
                   display: "flex",
@@ -264,20 +260,17 @@ const Booking = () => {
                   </Typography>
                 )}
               </Box>
-              {/* Seat selection */}
               <Grid item xs={12}>
                 <Seat
                   selectedSeats={selectedSeats}
                   handleSeatClick={handleSeatClick}
                 />
               </Grid>
-              {/* Total price */}
               <Grid item xs={12}>
                 <Typography variant="h6" gutterBottom>
                   Total Price: ${totalPrice}
                 </Typography>
               </Grid>
-              {/* Back and Payment buttons */}
               <Grid container spacing={2} justifyContent="center">
                 <Grid item xs={6}>
                   <Button
@@ -303,6 +296,76 @@ const Booking = () => {
           </Container>
         </Box>
       </Box>
+      <Modal
+        open={showPaymentModal}
+        onClose={() => setShowPaymentModal(false)}
+        aria-labelledby="payment-modal-title"
+        aria-describedby="payment-modal-description"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Typography
+            id="payment-modal-title"
+            variant="h6"
+            component="h1"
+            gutterBottom
+          >
+            Payment Details
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography id="payment-modal-description">
+                {Object.entries({
+                  Movie: media?.title || media?.name,
+                  Cinema: selectedCinemaId,
+                  Date: selectedDate,
+                  Time: selectedShowtime,
+                  Seat: selectedSeats.join(", "),
+                  Price: `$${totalPrice}`,
+                }).map(([key, value]) => (
+                  <div key={key}>
+                    <Typography
+                      variant="body2"
+                      sx={{ fontSize: 18, fontFamily: "500" }}
+                    >
+                      {key}: {value}
+                    </Typography>
+                  </div>
+                ))}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "1rem",
+                }}
+              >
+                <QRCode value={paymentInfo?.payUrl} />
+              </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <Button onClick={() => setShowPaymentModal(false)}>Close</Button>
+            </Grid>
+          </Grid>
+        </Box>
+      </Modal>
     </>
   );
 };

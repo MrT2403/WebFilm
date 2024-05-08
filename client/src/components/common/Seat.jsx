@@ -7,7 +7,7 @@ const Seat = ({ selectedSeats, handleSeatClick }) => {
   const seatsPerRow = totalSeats / rows / 2;
   const seatsPerHalf = totalSeats / 2;
   const ws = useRef(null);
-  const seatState = useRef({}); // Lưu trạng thái của từng ghế
+  const seatState = useRef({});
 
   useEffect(() => {
     ws.current = new WebSocket("ws://localhost:5000");
@@ -34,15 +34,13 @@ const Seat = ({ selectedSeats, handleSeatClick }) => {
   }, []);
 
   const handleSeatSelect = (seatNumber) => {
-    const isSeatSelected = seatState.current[seatNumber]; // Kiểm tra xem ghế đã được chọn chưa
+    const isSeatSelected = seatState.current[seatNumber];
     if (isSeatSelected) {
-      // Nếu đã chọn, hủy chọn ghế
       handleSeatClick(seatNumber);
     } else {
-      // Nếu chưa chọn, chọn ghế
       handleSeatClick(seatNumber);
     }
-    seatState.current[seatNumber] = !isSeatSelected; // Cập nhật trạng thái của ghế
+    seatState.current[seatNumber] = !isSeatSelected;
   };
 
   const renderSeats = (start, end) => {

@@ -2,11 +2,11 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import http from "http";
-import { WebSocketServer } from "ws"; // Import WebSocket from 'ws' library
-
+import { WebSocketServer } from "ws";
 import mongoose from "mongoose";
 import "dotenv/config";
 import routes from "./src/routes/index.js";
+import MoMoService from "./src/services/momo.js";
 import cinemaModel from "./src/models/cinema.model.js";
 import fs from "fs";
 
@@ -61,7 +61,15 @@ const importData = async () => {
 mongoose
   .connect(process.env.MONGODB_URL)
   .then(() => {
-    console.log("Mongodb connected");
+    console.log("MongoDB connected");
+
+    const partnerCode = process.env.MOMO_PARTNER_CODE;
+    const accessKey = process.env.MOMO_ACCESS_KEY;
+    const secretKey = process.env.MOMO_SECRET_KEY;
+
+    const momoService = new MoMoService(partnerCode, accessKey, secretKey);
+
+    console.log(momoService);
 
     server.listen(port, () => {
       console.log(`Server is listening on port ${port}`);

@@ -15,7 +15,6 @@ const userApi = {
         username,
         password,
       });
-
       return { response };
     } catch (err) {
       return { err };
@@ -29,6 +28,8 @@ const userApi = {
         password,
         confirmPassword,
       });
+      console.log("ressponsee ", response);
+
       return { response };
     } catch (err) {
       return { err };

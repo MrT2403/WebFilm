@@ -2,7 +2,9 @@ const baseUrl = process.env.TMDB_URL;
 const key = process.env.TMDB_KEY;
 
 const getUrl = (endpoint, params) => {
-  const pa = new URLSearchParams(params);
+  const { page, ...otherParams } = params;
+  const validPage = page && !isNaN(parseInt(page)) ? parseInt(page) : 1;
+  const pa = new URLSearchParams({ ...otherParams, page: validPage });
 
   return `${baseUrl}${endpoint}?api_key=${key}&${pa}`;
 };

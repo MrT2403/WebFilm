@@ -1,11 +1,9 @@
-import React, { useEffect, useRef } from "react";
-import { Box, Button, Typography, Grid } from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
+import { Button, Typography, Box, Grid } from "@mui/material";
 
-const Seat = ({ selectedSeats, handleSeatClick }) => {
-  const totalSeats = 50;
-  const rows = 5;
-  const seatsPerRow = totalSeats / rows / 2;
-  const seatsPerHalf = totalSeats / 2;
+const Seat = ({ selectedSeats, handleSeatClick, paymentSuccess }) => {
+  const [selectedSeatsPaid, setSelectedSeatsPaid] = useState([]);
+  const [totalSeats, setTotalSeats] = useState(50); // Số lượng ghế tổng cộng
   const ws = useRef(null);
   const seatState = useRef({});
 
@@ -18,6 +16,10 @@ const Seat = ({ selectedSeats, handleSeatClick }) => {
 
     ws.current.onmessage = (event) => {
       console.log("Received message:", event.data);
+      const data = JSON.parse(event.data);
+      if (data && data.action === "blockSeat") {
+        handleSeatBlocked(data.seatNumber);
+      }
     };
 
     ws.current.onclose = () => {
@@ -33,24 +35,55 @@ const Seat = ({ selectedSeats, handleSeatClick }) => {
     };
   }, []);
 
-  const handleSeatSelect = (seatNumber) => {
-    const isSeatSelected = seatState.current[seatNumber];
-    if (isSeatSelected) {
-      handleSeatClick(seatNumber);
-    } else {
-      handleSeatClick(seatNumber);
+  useEffect(() => {
+    const rows = 5;
+    const seatsPerRow = totalSeats / rows;
+    const seatInfo = {};
+    let seatIndex = 1;
+    for (let rowIndex = 1; rowIndex <= rows; rowIndex++) {
+      for (let seatNumber = 1; seatNumber <= seatsPerRow; seatNumber++) {
+        seatInfo[seatIndex] = { row: rowIndex, seat: seatNumber };
+        seatIndex++;
+      }
     }
-    seatState.current[seatNumber] = !isSeatSelected;
+    seatState.current = seatInfo;
+  }, [totalSeats]);
+
+  useEffect(() => {
+    if (paymentSuccess && selectedSeatsPaid.length === 0) {
+      setSelectedSeatsPaid(selectedSeats);
+    }
+  }, [paymentSuccess, selectedSeats, selectedSeatsPaid]);
+
+  const handleSeatSelect = (seatNumber) => {
+    if (selectedSeatsPaid.includes(seatNumber)) {
+      return;
+    }
+    handleSeatClick(seatNumber);
+  };
+
+  const handleSeatBlocked = (seatNumber) => {
+    setSelectedSeatsPaid((prevSelectedSeats) => [
+      ...prevSelectedSeats,
+      seatNumber,
+    ]);
   };
 
   const renderSeats = (start, end) => {
     const seats = [];
     for (let seatNumber = start; seatNumber <= end; seatNumber++) {
-      const isSeatSelected = seatState.current[seatNumber];
+      const isSeatSelected = selectedSeats.includes(seatNumber);
+      const isSeatPaid = selectedSeatsPaid.includes(seatNumber);
+      const variant = isSeatPaid
+        ? "contained"
+        : isSeatSelected
+        ? "contained"
+        : "outlined";
       seats.push(
         <Button
           key={seatNumber}
-          variant={isSeatSelected ? "contained" : "outlined"}
+          variant={variant}
+          disabled={isSeatPaid}
           onClick={() => handleSeatSelect(seatNumber)}
           sx={{ margin: "0.5rem" }}
         >
@@ -86,7 +119,6 @@ const Seat = ({ selectedSeats, handleSeatClick }) => {
           Screen
         </Typography>
       </Box>
-
       <Box
         sx={{
           marginTop: "2rem",
@@ -108,10 +140,10 @@ const Seat = ({ selectedSeats, handleSeatClick }) => {
         >
           <Grid item xs={12} sm={5}>
             <Grid container spacing={2}>
-              {[...Array(rows)].map((_, rowIndex) => (
+              {[...Array(5)].map((_, rowIndex) => (
                 <Grid item xs={12} key={`row1-${rowIndex}`}>
                   <Grid container spacing={2}>
-                    {[...Array(seatsPerRow)].map((_, seatIndex) => (
+                    {[...Array(5)].map((_, seatIndex) => (
                       <Grid
                         item
                         xs={2}
@@ -119,8 +151,8 @@ const Seat = ({ selectedSeats, handleSeatClick }) => {
                         sx={{ display: "flex", justifyContent: "center" }}
                       >
                         {renderSeats(
-                          rowIndex * seatsPerRow + seatIndex + 1,
-                          rowIndex * seatsPerRow + seatIndex + 1
+                          rowIndex * 5 + seatIndex + 1,
+                          rowIndex * 5 + seatIndex + 1
                         )}
                       </Grid>
                     ))}
@@ -143,10 +175,10 @@ const Seat = ({ selectedSeats, handleSeatClick }) => {
             }}
           >
             <Grid container spacing={2}>
-              {[...Array(rows)].map((_, rowIndex) => (
+              {[...Array(5)].map((_, rowIndex) => (
                 <Grid item xs={12} key={`row2-${rowIndex}`}>
                   <Grid container spacing={2}>
-                    {[...Array(seatsPerRow)].map((_, seatIndex) => (
+                    {[...Array(5)].map((_, seatIndex) => (
                       <Grid
                         item
                         xs={2}
@@ -154,8 +186,8 @@ const Seat = ({ selectedSeats, handleSeatClick }) => {
                         sx={{ display: "flex", justifyContent: "center" }}
                       >
                         {renderSeats(
-                          seatsPerHalf + rowIndex * seatsPerRow + seatIndex + 1,
-                          seatsPerHalf + rowIndex * seatsPerRow + seatIndex + 1
+                          25 + rowIndex * 5 + seatIndex + 1,
+                          25 + rowIndex * 5 + seatIndex + 1
                         )}
                       </Grid>
                     ))}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Typography,
   Button,
@@ -32,6 +32,10 @@ const Booking = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [paymentInfo, setPaymentInfo] = useState(null);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+
+  const ws = useRef(null);
+
   useEffect(() => {
     const getMedia = async () => {
       try {
@@ -148,9 +152,15 @@ const Booking = () => {
     setTotalPrice(totalPrice);
   }, [selectedSeats]);
 
-  const handlePaymentSuccess = (paymentResponse) => {
-    setPaymentInfo(paymentResponse);
-    setShowPaymentModal(true);
+  const handlePaymentSuccess = () => {
+    setPaymentSuccess(true);
+    setTimeout(() => {
+      if (ws.current) {
+        selectedSeats.forEach((seatNumber) => {
+          ws.current.send(JSON.stringify({ action: "blockSeat", seatNumber }));
+        });
+      }
+    }, 3000);
   };
 
   return (
@@ -264,14 +274,20 @@ const Booking = () => {
                 <Seat
                   selectedSeats={selectedSeats}
                   handleSeatClick={handleSeatClick}
+                  paymentSuccess={paymentSuccess}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sx={{ marginTop: "2rem" }}>
                 <Typography variant="h6" gutterBottom>
                   Total Price: ${totalPrice}
                 </Typography>
               </Grid>
-              <Grid container spacing={2} justifyContent="center">
+              <Grid
+                container
+                spacing={2}
+                justifyContent="center"
+                marginTop="2rem"
+              >
                 <Grid item xs={6}>
                   <Button
                     variant="contained"
@@ -285,7 +301,10 @@ const Booking = () => {
                   <Button
                     variant="contained"
                     color="primary"
-                    onClick={handlePaymentClick}
+                    onClick={() => {
+                      handlePaymentClick();
+                      handlePaymentSuccess();
+                    }}
                     sx={{ width: "100px" }}
                   >
                     Pay Now

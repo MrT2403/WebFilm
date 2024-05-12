@@ -14,12 +14,21 @@ router.post(
   body("username")
     .exists()
     .withMessage("username is required")
-    .isLength({ min: 8 })
-    .withMessage("username minimum 8 characters")
+    .isLength({ min: 5 })
+    .withMessage("username minimum 5 characters")
     .custom(async (value) => {
       const user = await userModel.findOne({ username: value });
       if (user) return Promise.reject("username already used");
     }),
+  body("email")
+    .exists()
+    .withMessage("email is required")
+    .isLength({ min: 8 })
+    .withMessage("email minimum 8 characters")
+    .isEmail()
+    .withMessage("email is invalid"),
+  requestHandler.validate,
+  userController.signup,
   body("password")
     .exists()
     .withMessage("password is required")
@@ -34,14 +43,7 @@ router.post(
       if (value !== req.body.password)
         throw new Error("confirmPassword not match");
       return true;
-    }),
-  body("displayName")
-    .exists()
-    .withMessage("displayName is required")
-    .isLength({ min: 8 })
-    .withMessage("displayName minimum 8 characters"),
-  requestHandler.validate,
-  userController.signup
+    })
 );
 
 router.post(

@@ -2,13 +2,16 @@
     "version": 2,
     "builds": [
         {
-            "src": "*.js",
+            "src": "index.js",
             "use": "@vercel/node"
         }
     ],
     "routes": [
         {
             "src": "/(.*)",
+            "headers": {
+                "Content-Security-Policy": "default-src 'none'; font-src 'self' https://fonts.gstatic.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline';"
+            },
             "dest": "/"
         }
     ]

@@ -69,9 +69,9 @@ class MoMoService {
   verifyPayment(responseData) {}
 }
 
-const partnerCode = "MOMOXWKV20220730";
-const accessKey = "XQCN5ZsnSsOxR4td";
-const secretKey = "QWPy60RiT3ad5bMAatwKhKIVjYU4nvDW";
+const partnerCode = process.env.MOMO_PARTNER_CODE;
+const accessKey = process.env.MOMO_ACCESS_KEY;
+const secretKey = process.env.MOMO_SECRET_KEY;
 
 const momoService = new MoMoService(partnerCode, accessKey, secretKey);
 

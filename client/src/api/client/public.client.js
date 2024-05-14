@@ -1,8 +1,8 @@
 import axios from "axios";
 import queryString from "query-string";
 
-const baseURL = "https://web-film-mern.vercel.app/api/v1/";
-// http://127.0.0.1:5000/api/v1/
+const baseURL = "http://127.0.0.1:5000/api/v1/";
+// https://web-film-mern.vercel.app/api/v1
 const publicClient = axios.create({
   baseURL,
   paramsSerializer: {
@@ -25,7 +25,7 @@ publicClient.interceptors.response.use(
     return response;
   },
   (err) => {
-    throw err.response.data;
+    throw err.response ? err.response.data : err;
   }
 );
 

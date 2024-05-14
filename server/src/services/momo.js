@@ -69,9 +69,9 @@ class MoMoService {
   verifyPayment(responseData) {}
 }
 
-const partnerCode = "MOMO";
-const accessKey = "F8BBA842ECF85";
-const secretKey = "K951B6PE1waDMi640xX08PD3vg6EkVlz";
+const partnerCode = "MOMOXWKV20220730";
+const accessKey = "XQCN5ZsnSsOxR4td";
+const secretKey = "QWPy60RiT3ad5bMAatwKhKIVjYU4nvDW";
 
 const momoService = new MoMoService(partnerCode, accessKey, secretKey);
 
@@ -86,9 +86,7 @@ const data = {
 
 momoService
   .createPayment(data)
-  .then((response) => {
-    console.log("Payment response:", response);
-  })
+  .then((response) => {})
   .catch((error) => {
     console.error("Error creating payment:", error);
   });

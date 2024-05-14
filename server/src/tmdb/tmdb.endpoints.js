@@ -1,12 +1,15 @@
+import { URLSearchParams } from "url";
+import "dotenv/config";
+
 const baseUrl = process.env.TMDB_URL;
 const key = process.env.TMDB_KEY;
 
-const getUrl = (endpoint, params) => {
-  const { page, ...otherParams } = params;
-  const validPage = page && !isNaN(parseInt(page)) ? parseInt(page) : 1;
-  const pa = new URLSearchParams({ ...otherParams, page: validPage });
+const getUrl = (endpoint, params = {}) => {
+  const { page = 1, ...otherParams } = params;
+  const validPage = !isNaN(parseInt(page)) ? parseInt(page) : 1;
+  const queryParams = new URLSearchParams({ ...otherParams, page: validPage });
 
-  return `${baseUrl}${endpoint}?api_key=${key}&${pa}`;
+  return `${baseUrl}${endpoint}?api_key=${key}&${queryParams}`;
 };
 
 const tmdbEndpoints = {

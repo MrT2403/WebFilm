@@ -26,12 +26,6 @@ const main = [
     state: "movie",
   },
   {
-    display: "genres",
-    path: "/genres",
-    icon: <LiveTvOutLinedIcon></LiveTvOutLinedIcon>,
-    state: "genres",
-  },
-  {
     display: "search",
     path: "/search",
     icon: <SearchOutLinedIcon></SearchOutLinedIcon>,

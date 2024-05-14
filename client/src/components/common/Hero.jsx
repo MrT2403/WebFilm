@@ -35,13 +35,20 @@ const Hero = ({ mediaType, mediaCategory }) => {
         mediaCategory,
         page: 1,
       });
-      if (response) setMovies(response.results);
-      if (err) toast.error(err.message);
+      if (response && response.results) {
+        setMovies(response.results);
+      }
+      if (err) {
+        toast.error(err.message);
+      }
       dispatch(setGlobalLoading(false));
     };
+    getMedia();
+
     const getGenre = async () => {
       dispatch(setGlobalLoading(true));
       const { response, err } = await genreApi.getList({ mediaType });
+
       if (response) {
         setGenres(response.genres);
         getMedia();

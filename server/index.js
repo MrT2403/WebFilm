@@ -79,3 +79,5 @@ mongoose
     console.error("Error connecting to database:", err);
     process.exit(1);
   });
+
+importData();

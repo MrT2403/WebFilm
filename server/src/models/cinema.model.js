@@ -1,16 +1,4 @@
 import { Schema, model } from "mongoose";
-import modelOptions from "./model.options.js";
-
-const moviePlayingSchema = new Schema({
-  movieId: {
-    type: String,
-    required: true,
-  },
-  showtime: {
-    type: [String],
-    required: true,
-  },
-});
 
 const cinemaSchema = new Schema(
   {
@@ -47,7 +35,7 @@ const cinemaSchema = new Schema(
       },
     ],
   },
-  modelOptions
+  { timestamps: true }
 );
 
 export default model("Cinema", cinemaSchema);

@@ -1,9 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Typography, Box, Grid } from "@mui/material";
 
-const Seat = ({ selectedSeats, handleSeatClick, paymentSuccess }) => {
+const Seat = ({
+  selectedSeats = [],
+  handleSeatClick,
+  paymentSuccess,
+  blockedSeats = [],
+}) => {
   const [selectedSeatsPaid, setSelectedSeatsPaid] = useState([]);
-  const [totalSeats, setTotalSeats] = useState(50); // Số lượng ghế tổng cộng
+  const [totalSeats, setTotalSeats] = useState(50);
   const ws = useRef(null);
   const seatState = useRef({});
 
@@ -74,16 +79,18 @@ const Seat = ({ selectedSeats, handleSeatClick, paymentSuccess }) => {
     for (let seatNumber = start; seatNumber <= end; seatNumber++) {
       const isSeatSelected = selectedSeats.includes(seatNumber);
       const isSeatPaid = selectedSeatsPaid.includes(seatNumber);
-      const variant = isSeatPaid
-        ? "contained"
-        : isSeatSelected
-        ? "contained"
-        : "outlined";
+      const isSeatBlocked = blockedSeats.includes(seatNumber);
+      const variant =
+        isSeatPaid || isSeatBlocked
+          ? "contained"
+          : isSeatSelected
+          ? "contained"
+          : "outlined";
       seats.push(
         <Button
           key={seatNumber}
           variant={variant}
-          disabled={isSeatPaid}
+          disabled={isSeatPaid || isSeatBlocked}
           onClick={() => handleSeatSelect(seatNumber)}
           sx={{ margin: "0.5rem" }}
         >

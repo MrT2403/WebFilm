@@ -3,11 +3,11 @@ import privateClient from "../client/private.client";
 
 const cinemaEndpoints = {
   list: "/cinemas",
-  movieId: ({ mediaId }) => `/cinemas/movie/${mediaId}`,
-  getCinemaByTypeAndLocation: ({ type, loca }) => `/cinemas/${type}/${loca}`,
+  movieId: (mediaId) => `/cinemas/movie/${mediaId}`,
+  getCinemaByTypeAndLocation: (type, loca) => `/cinemas/${type}/${loca}`,
   add: "/cinemas",
-  update: "/cinemas/:id",
-  delete: "/cinemas",
+  update: (id) => `/cinemas/${id}`,
+  delete: (id) => `/cinemas/${id}`,
 };
 
 const cinemaApi = {
@@ -19,50 +19,49 @@ const cinemaApi = {
       return { error };
     }
   },
-  getCinemasByMovieId: async ({ mediaId }) => {
+  getCinemasByMovieId: async (mediaId) => {
     try {
-      console.log("mediaIDDD: ", mediaId);
-      const response = await publicClient.get(
-        cinemaEndpoints.movieId({ mediaId })
-      );
-      console.log(response);
+      const response = await publicClient.get(cinemaEndpoints.movieId(mediaId));
       return { response };
     } catch (err) {
       return { err };
     }
   },
-  getCinemaByTypeAndLocation: async ({ type, loca }) => {
+  getCinemaByTypeAndLocation: async (type, loca) => {
     try {
       const response = await publicClient.get(
-        cinemaEndpoints.movieDetail({ type, loca })
+        cinemaEndpoints.getCinemaByTypeAndLocation(type, loca)
       );
       return { response };
     } catch (err) {
       return { err };
     }
   },
-  add: async () => {
+  add: async (cinemaData) => {
     try {
-      const response = await privateClient.post(cinemaEndpoints.add, {});
+      const response = await privateClient.post(
+        cinemaEndpoints.add,
+        cinemaData
+      );
       return { response };
     } catch (error) {
       return { error };
     }
   },
-  delete: async () => {
+  delete: async (id) => {
     try {
-      const response = await privateClient.delete(cinemaEndpoints.delete);
+      const response = await privateClient.delete(cinemaEndpoints.delete(id));
       return { response };
     } catch (error) {
       return { error };
     }
   },
-  update: async () => {
+  update: async (id, cinemaData) => {
     try {
-      const response = await privateClient.put(cinemaEndpoints.update, {
-        params: { id: privateClient.user },
-      });
-
+      const response = await privateClient.put(
+        cinemaEndpoints.update(id),
+        cinemaData
+      );
       return { response };
     } catch (error) {
       return { error };

@@ -1,4 +1,3 @@
-import cinemaModel from "../models/cinema.model.js";
 import Cinema from "../models/cinema.model.js";
 
 const getCinemas = async (req, res) => {
@@ -11,12 +10,10 @@ const getCinemas = async (req, res) => {
 };
 
 const createCinema = async (req, res) => {
-  const { name, address, phoneNumber } = req.body;
-  const cinema = new Cinema({ name, address, phoneNumber });
+  const { name, address, phone } = req.body;
+  const cinema = new Cinema({ name, address, phone });
 
   try {
-    const isCinema = await cinemaModel.findOne({});
-
     const newCinema = await cinema.save();
     res.status(201).json(newCinema);
   } catch (error) {

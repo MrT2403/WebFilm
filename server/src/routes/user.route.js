@@ -51,8 +51,8 @@ router.post(
   body("username")
     .exists()
     .withMessage("username is required")
-    .isLength({ min: 8 })
-    .withMessage("username minimum 8 characters"),
+    .isLength({ min: 5 })
+    .withMessage("username minimum 5 characters"),
   body("password")
     .exists()
     .withMessage("password is required")

@@ -5,14 +5,18 @@ import personRoute from "./person.route.js";
 import reviewRoute from "./review.route.js";
 import theatreRoute from "./theatre.route.js";
 import cinemaRoute from "./cinema.route.js";
+import vnpayRoute from "./vnpay.route.js";
+import momoRoute from "./momo.route.js";
 
 const router = express.Router();
 
 router.use("/user", userRoute);
 router.use("/person", personRoute);
 router.use("/reviews", reviewRoute);
+router.use("/theatre", theatreRoute);
+router.use("/cinemas", cinemaRoute);
+router.use("/vnpay", vnpayRoute);
+router.use("/momo", momoRoute);
 router.use("/:mediaType", mediaRoute);
-router.get("/theatre", theatreRoute);
-router.get("/cinemas", cinemaRoute);
 
 export default router;

@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import Reservation from "../models/cinema.model.js";
+import Reservation from "../models/reservation.model.js";
 import Payment from "../models/payment.model.js";
 
 const paymentWithVNpay = (req, res) => {

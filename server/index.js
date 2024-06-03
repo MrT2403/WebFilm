@@ -12,7 +12,15 @@ import fs from "fs";
 
 const app = express();
 
-app.use(cors());
+// Configure CORS
+const corsOptions = {
+  origin: "http://localhost:3000",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -36,14 +44,53 @@ wss.on("connection", function connection(ws) {
       }
     });
   });
+
+  ws.on("close", () => {
+    console.log("WebSocket client disconnected");
+  });
 });
+
+const startServer = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("MongoDB connected");
+
+    const { MOMO_PARTNER_CODE, MOMO_ACCESS_KEY, MOMO_SECRET_KEY } = process.env;
+    if (!MOMO_PARTNER_CODE || !MOMO_ACCESS_KEY || !MOMO_SECRET_KEY) {
+      throw new Error("MoMo configuration environment variables are missing");
+    }
+
+    const momoService = new MoMoService(
+      MOMO_PARTNER_CODE,
+      MOMO_ACCESS_KEY,
+      MOMO_SECRET_KEY
+    );
+    console.log(momoService);
+
+    server.listen(port, () => {
+      console.log(`Server is listening on port ${port}`);
+    });
+  } catch (error) {
+    console.error("Error starting server:", error);
+    process.exit(1);
+  }
+};
+
+startServer();
 
 const importData = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URL);
-    console.log("Mongodb connected");
+    await mongoose.connect(process.env.MONGODB_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("MongoDB connected");
+
     try {
-      const jsonData = fs.readFileSync("./cinema.json");
+      const jsonData = fs.readFileSync("./cinema.json", "utf-8");
       const data = JSON.parse(jsonData);
       await cinemaModel.insertMany(data);
       console.log("Data imported successfully.");
@@ -58,26 +105,4 @@ const importData = async () => {
   }
 };
 
-mongoose
-  .connect(process.env.MONGODB_URL)
-  .then(() => {
-    console.log("MongoDB connected");
-
-    const partnerCode = process.env.MOMO_PARTNER_CODE;
-    const accessKey = process.env.MOMO_ACCESS_KEY;
-    const secretKey = process.env.MOMO_SECRET_KEY;
-
-    const momoService = new MoMoService(partnerCode, accessKey, secretKey);
-
-    console.log(momoService);
-
-    server.listen(port, () => {
-      console.log(`Server is listening on port ${port}`);
-    });
-  })
-  .catch((err) => {
-    console.error("Error connecting to database:", err);
-    process.exit(1);
-  });
-
-// importData();
+importData();

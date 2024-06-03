@@ -23,8 +23,9 @@ const cinemaSchema = new Schema(
         showtime: [
           {
             date: {
-              type: String,
+              type: Date,
               required: true,
+              default: Date.now,
             },
             times: {
               type: [String],

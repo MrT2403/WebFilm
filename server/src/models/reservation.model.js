@@ -9,7 +9,7 @@ const reservationSchema = new mongoose.Schema({
   amount: { type: Number, required: true },
   status: {
     type: String,
-    enum: ["Pending", "Thanh toán", "Không thành công"],
+    enum: ["Pending", "Pay Now", "Not Success"],
     default: "Pending",
   },
   createdAt: { type: Date, default: Date.now },

@@ -23,7 +23,7 @@ const paymentWithMomo = async (req, res) => {
 
   const { orderId, amount } = req.body;
   const orderInfo = "Thanh toán qua MoMo";
-  const ipnUrl = "http://filmcenter.vn/";
+  const ipnUrl = "http://localhost:3000/";
   const redirectUrl = `${APP_URL}/payment/result`;
   const extraData = "tests";
   const requestId = Date.now().toString();

@@ -11,6 +11,7 @@ import Booking from "../pages/Booking";
 import CinemaList from "../pages/CinemaList";
 import CinemaDetail from "../pages/CinemasDetail";
 import Payment from "../pages/Payment";
+import PaymentResult from "../components/common/PaymentResult";
 
 export const routesGen = {
   home: "/",
@@ -93,6 +94,10 @@ const routes = [
   {
     path: "/payment",
     element: <Payment></Payment>,
+  },
+  {
+    path: "/payment/result",
+    element: <PaymentResult></PaymentResult>,
   },
 ];
 

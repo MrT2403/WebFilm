@@ -17,12 +17,18 @@ import mediaApi from "../api/modules/media.api";
 import cinemaApi from "../api/modules/cinema.api";
 import { toast } from "react-toastify";
 import Seat from "../components/common/Seat";
-import QRCode from "qrcode.react";
+import vnpayApi from "../api/modules/vnpay.api";
+import { format, parseISO } from "date-fns";
+
+const formatDate = (isoString) => {
+  const date = parseISO(isoString);
+  return format(date, "yyyy-MM-dd");
+};
 
 const Booking = () => {
   const navigate = useNavigate();
   const { mediaType, mediaId } = useParams();
-  const [media, setMedia] = useState();
+  const [media, setMedia] = useState(null);
   const [cinemas, setCinemas] = useState([]);
   const [showtimes, setShowtimes] = useState([]);
   const [selectedCinemaId, setSelectedCinemaId] = useState("");
@@ -31,11 +37,9 @@ const Booking = () => {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [paymentInfo, setPaymentInfo] = useState(null);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
   const ws = useRef(null);
-
   useEffect(() => {
     const getMedia = async () => {
       try {
@@ -81,10 +85,9 @@ const Booking = () => {
   }, [mediaId]);
 
   const handleCinemaChange = (event) => {
-    event.preventDefault();
     const selectedCi = event.target.value;
     setSelectedCinemaId(selectedCi);
-    const selectedCinema = cinemas.find((cinema) => cinema.name === selectedCi);
+    const selectedCinema = cinemas.find((cinema) => cinema._id === selectedCi);
     if (selectedCinema) {
       const selectedMovie = selectedCinema.movie_playing.find(
         (movie) => movie.movieId === mediaId
@@ -97,20 +100,22 @@ const Booking = () => {
     } else {
       setShowtimes([]);
     }
+    setSelectedDate("");
+    setSelectedShowtime(null);
   };
 
   const handleDateChange = (event) => {
     setSelectedDate(event.target.value);
     const selectedCinema = cinemas.find(
-      (cinema) => cinema.name === selectedCinemaId
+      (cinema) => cinema._id === selectedCinemaId
     );
-    if (selectedCinema && selectedCinema.movie_playing) {
+    if (selectedCinema) {
       const selectedMovie = selectedCinema.movie_playing.find(
         (movie) => movie.movieId === mediaId
       );
-      if (selectedMovie && selectedMovie.showtime) {
+      if (selectedMovie) {
         const selectedShowtimes = selectedMovie.showtime.filter(
-          (showtime) => showtime.date === event.target.value
+          (showtime) => formatDate(showtime.date) === event.target.value
         );
         setShowtimes(selectedShowtimes);
       } else {
@@ -119,6 +124,7 @@ const Booking = () => {
     } else {
       setShowtimes([]);
     }
+    setSelectedShowtime(null);
   };
 
   const handlePaymentClick = () => {
@@ -147,7 +153,7 @@ const Booking = () => {
   };
 
   useEffect(() => {
-    const pricePerTicket = 100;
+    const pricePerTicket = 100000;
     const totalPrice = selectedSeats.length * pricePerTicket;
     setTotalPrice(totalPrice);
   }, [selectedSeats]);
@@ -155,12 +161,30 @@ const Booking = () => {
   const handlePaymentSuccess = () => {
     setPaymentSuccess(true);
     setTimeout(() => {
-      if (ws.current) {
-        selectedSeats.forEach((seatNumber) => {
-          ws.current.send(JSON.stringify({ action: "blockSeat", seatNumber }));
-        });
-      }
+      selectedSeats.forEach((seatNumber) => {
+        ws.current.send(JSON.stringify({ action: "blockSeat", seatNumber }));
+      });
     }, 3000);
+  };
+
+  const handleConfirmPayment = async () => {
+    setIsLoading(true);
+    try {
+      const { response, err } = await vnpayApi.accessPay({
+        orderId: Math.floor(Math.random() * 1000),
+        amount: totalPrice,
+      });
+      if (response) {
+        window.location.href = response.data.paymentUrl;
+      } else {
+        console.error("Error Payment:", err);
+      }
+    } catch (error) {
+      console.error(error.message);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -191,15 +215,15 @@ const Booking = () => {
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="h6" gutterBottom>
-                  Select Cinema:
+                  Choose Cinema:
                 </Typography>
                 <Select
-                  value={selectedCinemaId || ""}
+                  value={selectedCinemaId}
                   onChange={handleCinemaChange}
                   fullWidth
                 >
                   {cinemas.map((cinema) => (
-                    <MenuItem key={cinema._id} value={cinema.name}>
+                    <MenuItem key={cinema._id} value={cinema._id}>
                       {cinema.name}
                     </MenuItem>
                   ))}
@@ -207,39 +231,33 @@ const Booking = () => {
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="h6" gutterBottom>
-                  Select Date:
+                  Choose Date:
                 </Typography>
                 <Select
                   value={selectedDate}
                   onChange={handleDateChange}
                   fullWidth
-                  sx={{ display: "inline-block" }}
                 >
-                  {selectedCinemaId && showtimes.length > 0 ? (
-                    showtimes.map((showtime, _id) => (
-                      <MenuItem key={_id} value={showtime.date}>
-                        {showtime.date}
+                  {showtimes
+                    .map((showtime) => showtime.date)
+                    .filter(
+                      (date, index, self) =>
+                        self.findIndex(
+                          (d) => formatDate(d) === formatDate(date)
+                        ) === index
+                    )
+                    .map((date, index) => (
+                      <MenuItem key={index} value={formatDate(date)}>
+                        {formatDate(date)}
                       </MenuItem>
-                    ))
-                  ) : (
-                    <MenuItem disabled>No date available</MenuItem>
-                  )}
+                    ))}
                 </Select>
               </Grid>
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: "1rem",
-                  overflowX: "auto",
-                  padding: "1rem 0 0 1rem",
-                  flexWrap: "wrap",
-                }}
-              >
-                {selectedDate && showtimes.length > 0 ? (
+              <Box sx={{ width: "100%", padding: "1rem" }}>
+                {selectedDate ? (
                   showtimes.map((showtime, index) => (
                     <div
                       key={index}
-                      variant="contained"
                       sx={{
                         margin: "0.5rem",
                         display: "flex",
@@ -279,7 +297,12 @@ const Booking = () => {
               </Grid>
               <Grid item xs={12} sx={{ marginTop: "2rem" }}>
                 <Typography variant="h6" gutterBottom>
-                  Total Price: ${totalPrice}
+                  Total Price:{" "}
+                  {totalPrice.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                    currencyDisplay: "code",
+                  })}
                 </Typography>
               </Grid>
               <Grid
@@ -340,14 +363,15 @@ const Booking = () => {
         >
           <Typography
             id="payment-modal-title"
-            variant="h6"
+            variant="h4"
             component="h1"
             gutterBottom
+            color="primary"
           >
             Payment Details
           </Typography>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid item>
               <Typography id="payment-modal-description">
                 {Object.entries({
                   Movie: media?.title || media?.name,
@@ -355,7 +379,11 @@ const Booking = () => {
                   Date: selectedDate,
                   Time: selectedShowtime,
                   Seat: selectedSeats.join(", "),
-                  Price: `$${totalPrice}`,
+                  Price: `${totalPrice.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                    currencyDisplay: "code",
+                  })}`,
                 }).map(([key, value]) => (
                   <div key={key}>
                     <Typography
@@ -368,19 +396,26 @@ const Booking = () => {
                 ))}
               </Typography>
             </Grid>
-            <Grid item xs={12}>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  marginTop: "1rem",
-                }}
-              >
-                <QRCode value={paymentInfo?.payUrl} />
-              </Box>
-            </Grid>
-            <Grid item xs={12}>
-              <Button onClick={() => setShowPaymentModal(false)}>Close</Button>
+            <Grid container xs={12} sx={{ marginTop: "2rem" }}>
+              <Grid item xs={6}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => setShowPaymentModal(false)}
+                >
+                  Close
+                </Button>
+              </Grid>
+              <Grid item xs={6} sx={{}}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleConfirmPayment}
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Loading..." : "Confirm"}
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
         </Box>

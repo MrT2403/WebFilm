@@ -17,7 +17,7 @@ const corsOptions = {
   origin: "https://web-film-eosin.vercel.app",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
-  optionsSuccessStatus: 204,
+  optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
@@ -90,7 +90,7 @@ const importData = async () => {
     console.log("MongoDB connected");
 
     try {
-      fs.readFile("./cinema.json", "utf-8", (err, jsonData) => {
+      fs.readFile("cinema.json", "utf-8", (err, jsonData) => {
         if (err) {
           console.error("Error reading file:", err);
           process.exit(1);

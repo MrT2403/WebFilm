@@ -15,6 +15,7 @@ const app = express();
 // Configure CORS
 const corsOptions = {
   origin: "https://web-film-eosin.vercel.app",
+  // http://localhost:3000/
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 200,

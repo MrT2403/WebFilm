@@ -13,14 +13,14 @@ import fs from "fs";
 const app = express();
 
 // Configure CORS
-// const corsOptions = {
-//   origin: "http://localhost:3000",
-//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-//   credentials: true,
-//   optionsSuccessStatus: 204,
-// };
+const corsOptions = {
+  origin: "https://web-film-eosin.vercel.app",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
 
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -90,11 +90,23 @@ const importData = async () => {
     console.log("MongoDB connected");
 
     try {
-      const jsonData = fs.readFileSync("./cinema.json", "utf-8");
-      const data = JSON.parse(jsonData);
-      await cinemaModel.insertMany(data);
-      console.log("Data imported successfully.");
-      process.exit();
+      fs.readFile("./cinema.json", "utf-8", (err, jsonData) => {
+        if (err) {
+          console.error("Error reading file:", err);
+          process.exit(1);
+        }
+        const data = JSON.parse(jsonData);
+        cinemaModel
+          .insertMany(data)
+          .then(() => {
+            console.log("Data imported successfully.");
+            process.exit();
+          })
+          .catch((error) => {
+            console.error("Error inserting data:", error);
+            process.exit(1);
+          });
+      });
     } catch (error) {
       console.error("Error importing data:", error);
       process.exit(1);

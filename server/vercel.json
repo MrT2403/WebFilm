@@ -9,10 +9,7 @@
     "routes": [
         {
             "src": "/(.*)",
-            "headers": {
-                "Content-Security-Policy": "default-src 'none'; font-src 'self' https://fonts.gstatic.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline';"
-            },
-            "dest": "/"
+            "dest": "/index.js"
         }
     ]
 }

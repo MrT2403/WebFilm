@@ -22,7 +22,6 @@ import { useDispatch, useSelector } from "react-redux";
 import UserMenu from "./UserMenu";
 import SideBar from "./SideBar";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import Notification from "./Notification";
 
 const ScrollAppBar = ({ children, window }) => {
   const { themeMode } = useSelector((state) => state.themeMode);

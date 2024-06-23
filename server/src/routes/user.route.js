@@ -6,6 +6,7 @@ import requestHandler from "../handlers/request.handler.js";
 import userModel from "../models/user.model.js";
 import tokenMiddleware from "../middlewares/token.middleware.js";
 import notificationController from "../controllers/notification.controller.js";
+import { verifyRefreshToken, generateTokens } from "../utils/token.js";
 
 const router = express.Router();
 
@@ -124,5 +125,54 @@ router.delete(
   tokenMiddleware.auth,
   favoriteController.removeFavorite
 );
+
+router.post(
+  "/forgot-password",
+  body("email")
+    .exists()
+    .withMessage("email is required")
+    .isEmail()
+    .withMessage("email is invalid"),
+  requestHandler.validate,
+  userController.forgotPassword
+);
+
+router.post(
+  "/reset-password",
+  body("token").exists().withMessage("Token is required"),
+  body("password")
+    .exists()
+    .withMessage("Password is required")
+    .isLength({ min: 8 })
+    .withMessage("Password must be at least 8 characters long"),
+  body("confirmPassword")
+    .exists()
+    .withMessage("Confirm Password is required")
+    .custom((value, { req }) => {
+      if (value !== req.body.password) {
+        throw new Error("Confirm Password does not match Password");
+      }
+      return true;
+    }),
+  requestHandler.validate,
+  userController.resetPassword
+);
+
+router.post("/refresh-token", async (req, res) => {
+  const { refreshToken } = req.body;
+
+  if (!refreshToken) {
+    return res.status(401).json({ message: "Refresh token required" });
+  }
+
+  try {
+    const userId = await verifyRefreshToken(refreshToken);
+    const tokens = await generateTokens(userId);
+
+    res.json(tokens);
+  } catch (err) {
+    res.status(403).json({ message: "Invalid or expired refresh token" });
+  }
+});
 
 export default router;

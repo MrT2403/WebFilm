@@ -128,7 +128,7 @@ const Signup = ({ switchAuthState }) => {
             You already have an account?
             <span style={{ color: theme.palette.primary.main }}>
               {" "}
-              Log in here !
+              Log in here!
             </span>
           </Typography>
         </Stack>
@@ -152,7 +152,7 @@ const Signup = ({ switchAuthState }) => {
 
         {errMessage && (
           <Box sx={{ marginTop: 2 }}>
-            <Alert security="error" variant="outlined">
+            <Alert severity="error" variant="outlined">
               {errMessage}
             </Alert>
           </Box>

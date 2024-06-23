@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Modal } from "@mui/material";
-import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Logo from "./Logo";
 import { setAuthModalOpen } from "../../redux/features/authModalSlice";
 import Signin from "./Signin";
 import Signup from "./Signup";
+import ForgotPassword from "./ForgotPassword";
+import ResetPassword from "./ResetPassword";
 
 const actionState = {
   signin: "signin",
   signup: "signup",
+  forgotPassword: "forgotPassword",
+  resetPassword: "resetPassword",
 };
 
 const Auth = () => {
@@ -47,18 +50,24 @@ const Auth = () => {
           }}
         >
           <Box sx={{ textAlign: "center", marginBottom: "2rem" }}>
-            <Logo></Logo>
+            <Logo />
           </Box>
 
           {action === actionState.signin && (
-            <Signin
-              switchAuthState={() => switchAuthState(actionState.signup)}
-            ></Signin>
+            <Signin switchAuthState={(state) => switchAuthState(state)} />
           )}
           {action === actionState.signup && (
-            <Signup
-              switchAuthState={() => switchAuthState(actionState.signin)}
-            ></Signup>
+            <Signup switchAuthState={(state) => switchAuthState(state)} />
+          )}
+          {action === actionState.forgotPassword && (
+            <ForgotPassword
+              switchAuthState={(state) => switchAuthState(state)}
+            />
+          )}
+          {action === actionState.resetPassword && (
+            <ResetPassword
+              switchAuthState={(state) => switchAuthState(state)}
+            />
           )}
         </Box>
       </Box>

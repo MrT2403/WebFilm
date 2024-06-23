@@ -91,7 +91,11 @@ const result = async (req, res) => {
           });
           await newPayment.save();
 
-          // return res.redirect(`/payment/result`);
+          if (status === "Payment success") {
+            await blockSeats(order);
+          }
+
+          return res.redirect(`/payment/result`);
         }
         return res
           .status(400)
@@ -110,6 +114,28 @@ const result = async (req, res) => {
     return res
       .status(400)
       .json({ RspCode: "97", Message: "Invalid signature" });
+  }
+};
+
+const blockSeats = async (order) => {
+  try {
+    const { seats, showtimeId, cinemaId, date } = order;
+
+    const showtime = await Showtime.findById(showtimeId);
+    if (!showtime) {
+      throw new Error("Showtime not found");
+    }
+
+    seats.forEach((seatNumber) => {
+      const seat = showtime.seats.find((s) => s.number === seatNumber);
+      if (seat) {
+        seat.isBlocked = true;
+      }
+    });
+
+    await showtime.save();
+  } catch (error) {
+    console.error("Error blocking seats:", error);
   }
 };
 

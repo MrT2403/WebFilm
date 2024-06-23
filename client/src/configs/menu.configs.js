@@ -5,6 +5,7 @@ import FavoriteBorderOutLinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import SearchOutLinedIcon from "@mui/icons-material/SearchOutlined";
 import RateReviewOutLinedIcon from "@mui/icons-material/RateReviewOutlined";
 import LockResetOutLinedIcon from "@mui/icons-material/LockResetOutlined";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
 const main = [
   {
@@ -51,6 +52,12 @@ const user = [
     path: "/password-update",
     icon: <LockResetOutLinedIcon></LockResetOutLinedIcon>,
     state: "password.update",
+  },
+  {
+    display: "ticket booked",
+    path: "/ticket-booked",
+    icon: <ShoppingCartOutlinedIcon></ShoppingCartOutlinedIcon>,
+    state: "ticket.booked",
   },
 ];
 

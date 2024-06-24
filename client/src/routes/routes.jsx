@@ -12,6 +12,8 @@ import CinemaList from "../pages/CinemaList";
 import CinemaDetail from "../pages/CinemasDetail";
 import Payment from "../pages/Payment";
 import PaymentResult from "../components/common/PaymentResult";
+import ForgotPassword from "../components/common/ForgotPassword";
+import ResetPassword from "../components/common/ResetPassword";
 
 export const routesGen = {
   home: "/",
@@ -98,6 +100,18 @@ const routes = [
   {
     path: "/payment/result",
     element: <PaymentResult></PaymentResult>,
+  },
+  {
+    path: "/seats/status",
+    element: <></>,
+  },
+  {
+    path: "/user/forgot-password",
+    element: <ForgotPassword></ForgotPassword>,
+  },
+  {
+    path: "/user/reset-password/:token",
+    element: <ResetPassword></ResetPassword>,
   },
 ];
 

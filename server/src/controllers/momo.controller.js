@@ -2,7 +2,7 @@ import axios from "axios";
 import crypto from "crypto";
 import Reservation from "../models/reservation.model.js";
 import Payment from "../models/payment.model.js";
-import User from "../models/user.model.js";
+import userModel from "../models/user.model.js";
 
 const execPostRequest = async (url, data) => {
   try {
@@ -61,7 +61,7 @@ const paymentWithMomo = async (req, res) => {
     if (result.payUrl) {
       return res.status(200).json({
         status: true,
-        message: "Momo successfully!",
+        message: "Momo success!",
         url: result.payUrl,
       });
     }
@@ -77,7 +77,7 @@ const paymentWithMomo = async (req, res) => {
 
 const result = async (req, res) => {
   const { resultCode, orderId, amount } = req.body;
-  const status = resultCode === "0" ? "Thanh toán" : "Không thành công";
+  const status = resultCode === "0" ? "Payment Success" : "Payment Not Success";
 
   try {
     const reservation = await Reservation.findById(orderId);
@@ -90,7 +90,7 @@ const result = async (req, res) => {
       });
       await newPayment.save();
 
-      const user = await User.findById(reservation.user_id);
+      const user = await userModel.findById(reservation.user_id);
       if (user) {
         const dataResult = await getInforReservation(orderId);
 

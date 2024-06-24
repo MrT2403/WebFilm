@@ -1,42 +1,71 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Typography, Box, Grid } from "@mui/material";
+import io from "socket.io-client";
+import seatApi from "../../api/modules/seat.api";
+import axios from "axios";
 
 const Seat = ({
   selectedSeats = [],
   handleSeatClick,
   paymentSuccess,
   blockedSeats = [],
+  showtime,
+  cinemaId,
+  date,
 }) => {
   const [selectedSeatsPaid, setSelectedSeatsPaid] = useState([]);
   const [totalSeats, setTotalSeats] = useState(50);
-  const ws = useRef(null);
+  const socket = useRef(null);
   const seatState = useRef({});
 
   useEffect(() => {
-    ws.current = new WebSocket("ws://localhost:5000");
+    const fetchSeatStatus = async () => {
+      try {
+        // const { response, error } = await seatApi.seatStatus();
+        // console.log(response);
+        const response = await axios.get(
+          "http://localhost:5000/api/v1/seats/status",
+          {
+            params: { cinemaId, showtimeId: showtime, date },
+          }
+        );
 
-    ws.current.onopen = () => {
-      console.log("WebSocket connection established.");
-    };
-
-    ws.current.onmessage = (event) => {
-      console.log("Received message:", event.data);
-      const data = JSON.parse(event.data);
-      if (data && data.action === "blockSeat") {
-        handleSeatBlocked(data.seatNumber);
+        if (response.data) {
+          const bookedSeats = response.data.seats
+            .filter((seat) => seat.status === "booked")
+            .map((seat) => seat.number);
+          setSelectedSeatsPaid(bookedSeats);
+        }
+      } catch (error) {
+        console.error("Error fetching seat status:", error);
       }
     };
 
-    ws.current.onclose = () => {
-      console.log("WebSocket connection closed.");
-    };
+    fetchSeatStatus();
+  }, [cinemaId, showtime, date]);
 
-    ws.current.onerror = (error) => {
-      console.error("WebSocket connection error:", error);
-    };
+  useEffect(() => {
+    socket.current = io("http://localhost:5000");
+
+    socket.current.on("connect", () => {
+      console.log("Socket.IO connection established.");
+    });
+
+    socket.current.on("seatBlocked", ({ seatNumber }) => {
+      console.log("Seat blocked:", seatNumber);
+      handleSeatBlocked(seatNumber);
+    });
+
+    socket.current.on("disconnect", () => {
+      console.log("Socket.IO connection closed.");
+    });
+
+    socket.current.on("error", (error) => {
+      console.error("Socket.IO connection error:", error);
+    });
 
     return () => {
-      ws.current.close();
+      socket.current.disconnect();
     };
   }, []);
 
@@ -61,10 +90,21 @@ const Seat = ({
   }, [paymentSuccess, selectedSeats, selectedSeatsPaid]);
 
   const handleSeatSelect = (seatNumber) => {
-    if (selectedSeatsPaid.includes(seatNumber)) {
+    if (
+      selectedSeatsPaid.includes(seatNumber) ||
+      blockedSeats.includes(seatNumber)
+    ) {
       return;
     }
     handleSeatClick(seatNumber);
+
+    // Emit blockSeat event với các thông tin từ props
+    socket.current.emit("blockSeat", {
+      seatNumber,
+      showtime,
+      cinemaId,
+      date,
+    });
   };
 
   const handleSeatBlocked = (seatNumber) => {
@@ -116,8 +156,8 @@ const Seat = ({
       >
         <hr
           style={{
-            width: "300px",
-            height: "5px",
+            width: "30%",
+            height: "8px",
             borderRadius: "10px",
             backgroundColor: "#000",
           }}

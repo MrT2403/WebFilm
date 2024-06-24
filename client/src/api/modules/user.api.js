@@ -6,6 +6,8 @@ const userEndpoints = {
   signup: "user/signup",
   getInfo: "user/info",
   passwordUpdate: "user/update-password",
+  forgotPassword: "user/forgot-password",
+  resetPassword: "user/reset-password",
 };
 
 const userApi = {
@@ -28,8 +30,6 @@ const userApi = {
         password,
         confirmPassword,
       });
-      console.log("ressponsee ", response);
-
       return { response };
     } catch (err) {
       return { err };
@@ -50,7 +50,30 @@ const userApi = {
         newPassword,
         confirmNewPassword,
       });
-
+      return { response };
+    } catch (err) {
+      return { err };
+    }
+  },
+  forgotPassword: async ({ email }) => {
+    try {
+      const response = await publicClient.post(userEndpoints.forgotPassword, {
+        email,
+      });
+      console.log("response fp: ", response);
+      return { response };
+    } catch (err) {
+      console.log("errr: ", err);
+      return { err };
+    }
+  },
+  resetPassword: async ({ token, password, confirmPassword }) => {
+    try {
+      const response = await publicClient.post(userEndpoints.resetPassword, {
+        token,
+        password,
+        confirmPassword,
+      });
       return { response };
     } catch (err) {
       return { err };

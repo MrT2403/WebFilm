@@ -1,21 +1,21 @@
 import express from "express";
-import cookieParser from "cookie-parser";
-import cors from "cors";
-import http from "http";
-import { WebSocketServer } from "ws";
 import mongoose from "mongoose";
-import "dotenv/config";
+import dotenv from "dotenv";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import http from "http";
+import { Server } from "socket.io";
 import routes from "./src/routes/index.js";
-import MoMoService from "./src/services/momo.js";
-import cinemaModel from "./src/models/cinema.model.js";
-import fs from "fs";
+import seatModel from "./src/models/seat.model.js";
+// import fs from "fs";
+// import cinemaModel from "./src/models/cinema.model.js";
+
+dotenv.config();
 
 const app = express();
 
-// Configure CORS
 const corsOptions = {
-  origin: "https://web-film-eosin.vercel.app",
-  // http://localhost:3000/
+  origin: "https://web-film-eosin.vercel.app", //  http://localhost:3000
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 200,
@@ -31,45 +31,78 @@ app.use("/api/v1", routes);
 const port = process.env.PORT || 5000;
 
 const server = http.createServer(app);
-const wss = new WebSocketServer({ server });
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
 
-wss.on("connection", function connection(ws) {
-  console.log("New WebSocket client connected");
+app.set("socketio", io);
 
-  ws.on("message", function incoming(message) {
-    console.log("received: %s", message);
-
-    wss.clients.forEach(function each(client) {
-      if (client !== ws && client.readyState === WebSocket.OPEN) {
-        client.send(message);
-      }
-    });
+io.on("connection", (socket) => {
+  socket.on("disconnect", () => {
+    console.log("Client disconnected");
   });
 
-  ws.on("close", () => {
-    console.log("WebSocket client disconnected");
+  socket.on("blockSeat", async ({ seatNumber, showtime, cinemaId, date }) => {
+    console.log(
+      "received blockSeat event for seat number:",
+      seatNumber,
+      "showtime:",
+      showtime,
+      "cinemaId:",
+      cinemaId,
+      "date:",
+      date
+    );
+
+    if (!seatNumber || !showtime || !cinemaId || !date) {
+      console.error("Invalid data received");
+      return;
+    }
+
+    try {
+      const seatDoc = await seatModel.findOne({
+        seatNumber,
+        cinemaId,
+        showtime,
+        date,
+      });
+
+      if (!seatDoc) {
+        console.error("Seat document not found");
+        return;
+      }
+
+      const seatExists = seatDoc.seats.some(
+        (seat) => seat.number === seatNumber
+      );
+      if (!seatExists) {
+        console.error("Seat not found in the document");
+        return;
+      }
+
+      const updatedSeat = await seatModel.findOneAndUpdate(
+        { cinemaId, showtime, date, "seats.number": seatNumber },
+        { $set: { "seats.$.status": "booked" } },
+        { new: true }
+      );
+
+      console.log("updatedSeat: ", updatedSeat);
+      if (updatedSeat) {
+        io.emit("seatBlocked", { seatNumber, showtime, cinemaId, date });
+      }
+    } catch (error) {
+      console.error("Error updating seat status:", error);
+    }
   });
 });
 
 const startServer = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(process.env.MONGODB_URL);
     console.log("MongoDB connected");
-
-    const { MOMO_PARTNER_CODE, MOMO_ACCESS_KEY, MOMO_SECRET_KEY } = process.env;
-    if (!MOMO_PARTNER_CODE || !MOMO_ACCESS_KEY || !MOMO_SECRET_KEY) {
-      throw new Error("MoMo configuration environment variables are missing");
-    }
-
-    const momoService = new MoMoService(
-      MOMO_PARTNER_CODE,
-      MOMO_ACCESS_KEY,
-      MOMO_SECRET_KEY
-    );
-    console.log(momoService);
 
     server.listen(port, () => {
       console.log(`Server is listening on port ${port}`);

@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Stack,
   TextField,
@@ -7,11 +8,10 @@ import {
   IconButton,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/features/userSlice";
 import { setAuthModalOpen } from "../../redux/features/authModalSlice";
 import userApi from "../../api/modules/user.api";
@@ -98,12 +98,28 @@ const Signin = ({ switchAuthState }) => {
           }}
         />
 
-        <Stack sx={{ cursor: "pointer" }} onClick={() => switchAuthState()}>
+        <Stack
+          sx={{ cursor: "pointer" }}
+          onClick={() => switchAuthState("signup")}
+        >
           <Typography>
             You don't have an account?
             <span style={{ color: theme.palette.primary.main }}>
               {" "}
               Register here!
+            </span>
+          </Typography>
+        </Stack>
+
+        <Stack
+          sx={{ cursor: "pointer" }}
+          onClick={() => switchAuthState("forgotPassword")}
+        >
+          <Typography>
+            Forgot your password?
+            <span style={{ color: theme.palette.primary.main }}>
+              {" "}
+              Reset here!
             </span>
           </Typography>
         </Stack>
@@ -127,7 +143,7 @@ const Signin = ({ switchAuthState }) => {
 
         {errMessage && (
           <Box sx={{ marginTop: 2 }}>
-            <Alert security="error" variant="outlined">
+            <Alert severity="error" variant="outlined">
               {errMessage}
             </Alert>
           </Box>

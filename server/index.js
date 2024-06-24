@@ -115,40 +115,40 @@ const startServer = async () => {
 
 startServer();
 
-// const importData = async () => {
-//   try {
-//     await mongoose.connect(process.env.MONGODB_URL, {
-//       useNewUrlParser: true,
-//       useUnifiedTopology: true,
-//     });
-//     console.log("MongoDB connected");
+const importData = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("MongoDB connected");
 
-//     try {
-//       fs.readFile("cinema.json", "utf-8", (err, jsonData) => {
-//         if (err) {
-//           console.error("Error reading file:", err);
-//           process.exit(1);
-//         }
-//         const data = JSON.parse(jsonData);
-//         cinemaModel
-//           .insertMany(data)
-//           .then(() => {
-//             console.log("Data imported successfully.");
-//             process.exit();
-//           })
-//           .catch((error) => {
-//             console.error("Error inserting data:", error);
-//             process.exit(1);
-//           });
-//       });
-//     } catch (error) {
-//       console.error("Error importing data:", error);
-//       process.exit(1);
-//     }
-//   } catch (err) {
-//     console.error("Error connecting to database:", err);
-//     process.exit(1);
-//   }
-// };
+    try {
+      fs.readFile("cinema.json", "utf-8", (err, jsonData) => {
+        if (err) {
+          console.error("Error reading file:", err);
+          process.exit(1);
+        }
+        const data = JSON.parse(jsonData);
+        cinemaModel
+          .insertMany(data)
+          .then(() => {
+            console.log("Data imported successfully.");
+            process.exit();
+          })
+          .catch((error) => {
+            console.error("Error inserting data:", error);
+            process.exit(1);
+          });
+      });
+    } catch (error) {
+      console.error("Error importing data:", error);
+      process.exit(1);
+    }
+  } catch (err) {
+    console.error("Error connecting to database:", err);
+    process.exit(1);
+  }
+};
 
-// importData();
+importData();

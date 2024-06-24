@@ -1,18 +1,16 @@
 import React, { useState } from "react";
-import { Stack, TextField, Typography, Alert, Box } from "@mui/material";
+import { Stack, TextField, Alert, Box } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import userApi from "../../api/modules/user.api";
-import { useTheme } from "@emotion/react";
 import { useParams } from "react-router-dom";
 import Container from "./Container.jsx";
 
 const ResetPassword = ({ switchAuthState }) => {
   const [loading, setLoading] = useState(false);
   const [errMessage, setErrMessage] = useState();
-  const theme = useTheme();
   const { token } = useParams();
 
   const formik = useFormik({

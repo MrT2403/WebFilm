@@ -7,6 +7,8 @@ import http from "http";
 import { Server } from "socket.io";
 import routes from "./src/routes/index.js";
 import seatModel from "./src/models/seat.model.js";
+// import fs from "fs";
+// import cinemaModel from "./src/models/cinema.model.js";
 
 dotenv.config();
 
